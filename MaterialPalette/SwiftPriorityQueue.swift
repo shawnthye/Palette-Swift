@@ -112,7 +112,7 @@ public struct PriorityQueue<T: Comparable> {
 }
 
 // MARK: - GeneratorType
-extension PriorityQueue: GeneratorType {
+extension PriorityQueue: IteratorProtocol {
     
     public typealias Element = T
     mutating public func next() -> Element? { return pop() }
