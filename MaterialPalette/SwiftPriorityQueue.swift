@@ -54,9 +54,9 @@ public struct PriorityQueue<T: Comparable> {
     /// Add a new element onto the Priority Queue. O(lg n)
     ///
     /// - parameter element: The element to be inserted into the Priority Queue.
-    public mutating func push(element: T) {
+    public mutating func push(_ element: T) {
         heap.append(element)
-        swim(heap.count - 1)
+        swim(index: heap.count - 1)
     }
     
     /// Remove and return the element with the highest priority (or lowest if ascending). O(lg n)
@@ -69,7 +69,7 @@ public struct PriorityQueue<T: Comparable> {
         // so as not to call swap() with two instances of the same location
         swap(&heap[0], &heap[heap.count - 1])
         let temp = heap.removeLast()
-        sink(0)
+        sink(index: 0)
         
         return temp
     }
@@ -83,17 +83,17 @@ public struct PriorityQueue<T: Comparable> {
     
     /// Eliminate all of the elements from the Priority Queue.
     public mutating func clear() {
-        heap.removeAll(keepCapacity: false)
+        heap.removeAll(keepingCapacity: false)
     }
     
     // Based on example from Sedgewick p 316
-    private mutating func sink(var index: Int) {
-        
+    private mutating func sink(index: Int) {
+        var index = index
         while 2 * index + 1 < heap.count {
             
             var j = 2 * index + 1
             
-            if j < (heap.count - 1) && ordered(heap[j], heap[j + 1]) { j++ }
+            if j < (heap.count - 1) && ordered(heap[j], heap[j + 1]) { j+=1 }
             if !ordered(heap[index], heap[j]) { break }
             
             swap(&heap[index], &heap[j])
@@ -102,8 +102,8 @@ public struct PriorityQueue<T: Comparable> {
     }
     
     // Based on example from Sedgewick p 316
-    private mutating func swim(var index: Int) {
-        
+    private mutating func swim(index: Int) {
+        var index = index
         while index > 0 && ordered(heap[(index - 1) / 2], heap[index]) {
             swap(&heap[(index - 1) / 2], &heap[index])
             index = (index - 1) / 2
@@ -119,19 +119,20 @@ extension PriorityQueue: IteratorProtocol {
 }
 
 // MARK: - SequenceType
-extension PriorityQueue: SequenceType {
+extension PriorityQueue: Sequence {
     
     public typealias Generator = PriorityQueue
     public func generate() -> Generator { return self }
 }
 
 // MARK: - CollectionType
-extension PriorityQueue: CollectionType {
+extension PriorityQueue: Collection {
     
     public typealias Index = Int
     
     public var startIndex: Int { return heap.startIndex }
     public var endIndex: Int { return heap.endIndex }
+    public func index(after i: Int) -> Int { return heap.index(after: i) }
     
     public subscript(i: Int) -> T { return heap[i] }
 }
