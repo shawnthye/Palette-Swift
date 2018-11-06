@@ -16,7 +16,7 @@ class ColorUtils {
     /**
     * Composite two potentially translucent colors over each other and returns the result.
     */
-    static func compositeColors(foreground: Int, background: Int) -> Int {
+    static func compositeColors(_ foreground: Int, background: Int) -> Int {
         let bgAlpha = getAlphaComponent(background)
         let fgAlpha = getAlphaComponent(foreground)
         let a = compositeAlpha(fgAlpha, backgroundAlpha: bgAlpha)
@@ -28,11 +28,11 @@ class ColorUtils {
         return getARGB(a, r: r, g: g, b: b)
     }
     
-    private static func compositeAlpha(foregroundAlpha: Int, backgroundAlpha: Int) -> Int {
+    private static func compositeAlpha(_ foregroundAlpha: Int, backgroundAlpha: Int) -> Int {
         return 0xFF - (((0xFF - backgroundAlpha) * (0xFF - foregroundAlpha)) / 0xFF);
     }
     
-    private static func compositeComponent(fgC: Int, fgA: Int, bgC: Int, bgA: Int, a: Int) -> Int{
+    private static func compositeComponent(_ fgC: Int, fgA: Int, bgC: Int, bgA: Int, a: Int) -> Int{
         if (a == 0) {
             return 0
         }
@@ -44,7 +44,7 @@ class ColorUtils {
     *
     * Formula defined here: http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
     */
-    static func calculateLuminance(color: Int) -> Double {
+    static func calculateLuminance(_ color: Int) -> Double {
         var red = Double(getRed(color)) / 255.0
         red = red < 0.03928 ? red / 12.92 : pow((red + 0.055) / 1.055, 2.4)
         
@@ -64,7 +64,8 @@ class ColorUtils {
     * Formula defined
     * <a href="http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef">here</a>.
     */
-    static func calculateContrast(var foreground: Int, background: Int) -> Double {
+    static func calculateContrast(_ foreground: Int, background: Int) -> Double {
+        var foreground = foreground
         let foregroundAlpha = getAlphaComponent(foreground)
         if (foregroundAlpha < 255) {
             // If the foreground is translucent, composite the foreground over the background
@@ -120,37 +121,37 @@ class ColorUtils {
                     maxAlpha = testAlpha
                 }
                 
-                numIterations++
+                numIterations += 1
         }
         
         // Conservatively return the max of the range of possible alphas, which is known to pass.
         return maxAlpha;
     }
     
-    static func setAlphaComponent(color: Int, alpha: Int) -> Int {
+    static func setAlphaComponent(_ color: Int, alpha: Int) -> Int {
         if (alpha < 0 || alpha > 255) {
             return color
         }
         return (color & 0x00ffffff) | (alpha << 24)
     }
     
-    static func getAlphaComponent(color: Int) -> Int {
+    static func getAlphaComponent(_ color: Int) -> Int {
         return (color >> 24) & 0xff
     }
     
-    static func getRed(color: Int) -> Int {
+    static func getRed(_ color: Int) -> Int {
         return (color >> 16) & 0xff
     }
     
-    static func getGreen(color: Int) -> Int {
+    static func getGreen(_ color: Int) -> Int {
         return (color >> 8) & 0xff
     }
     
-    static func getBlue(color: Int) -> Int {
+    static func getBlue(_ color: Int) -> Int {
         return color & 0xff
     }
 
-    static func getARGB(a: Int, r: Int, g: Int, b: Int) -> Int {
+    static func getARGB(_ a: Int, r: Int, g: Int, b: Int) -> Int {
         return a << 24 + r << 16 + g << 8 + b
     }
 }
