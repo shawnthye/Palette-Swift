@@ -212,9 +212,12 @@ class DefaultGenerator {
                                        populationWeight: CGFloat) -> CGFloat {
         
         return weightedMean(
-            invertDiff(saturation, targetValue: targetSaturation), saturationWeight,
-            invertDiff(luma, targetValue: targetLuma), lumaWeight,
-            CGFloat(population) / CGFloat(maxPopulation), populationWeight
+            invertDiff(saturation, targetValue: targetSaturation),
+            saturationWeight,
+            invertDiff(luma, targetValue: targetLuma),
+            lumaWeight,
+            CGFloat(population) / CGFloat(maxPopulation),
+            populationWeight
         )
     }
     
