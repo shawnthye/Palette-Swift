@@ -34,7 +34,7 @@ class ColorCutQuantizer {
     * @param filters Set of filters to use in the quantization stage
     */
     init(bitmap: UIImage, maxColors: Int) {
-        bitmap.applyOnPixels({
+        _ = bitmap.applyOnPixels({
             (point:CGPoint, redColor:UInt8, greenColor:UInt8, blueColor:UInt8, alphaValue:UInt8) -> (UInt8, UInt8, UInt8, UInt8) in
             let quantizedColor = ColorCutQuantizer.quantizeFromRgb888(redColor, green: greenColor, blue: blueColor)
             // And update the histogram
@@ -54,11 +54,11 @@ class ColorCutQuantizer {
             }
         } else {
             // We need use quantization to reduce the number of colors
-            self.quantizedColors.appendContentsOf(quantizePixels(maxColors))
+            self.quantizedColors.append(contentsOf: quantizePixels(maxColors))
         }
     }
     
-    private func quantizePixels(maxColors: Int) -> [Palette.Swatch] {
+    private func quantizePixels(_ maxColors: Int) -> [Palette.Swatch] {
         // Create the priority queue which is sorted by volume descending. This means we always
         // split the largest box in the queue
         var pq = PriorityQueue<Vbox>()
@@ -68,7 +68,7 @@ class ColorCutQuantizer {
         
         // Now go through the boxes, splitting them until we have reached maxColors or there are no
         // more boxes to split
-        pq = splitBoxes(pq, maxSize: maxColors)
+        pq = splitBoxes(&pq, maxSize: maxColors)
         
         // Finally, return the average colors of the color boxes
         return generateAverageColors(pq)
@@ -83,7 +83,7 @@ class ColorCutQuantizer {
     * @param queue {@link java.util.PriorityQueue} to poll for boxes
     * @param maxSize Maximum amount of boxes to split
     */
-    private func splitBoxes(var queue: PriorityQueue<Vbox>, maxSize: Int) -> PriorityQueue<Vbox> {
+    private func splitBoxes(_ queue: inout PriorityQueue<Vbox>, maxSize: Int) -> PriorityQueue<Vbox> {
         while (queue.count < maxSize) {
             if let vbox = queue.pop() {
                 if (vbox.canSplit()) {
@@ -103,7 +103,7 @@ class ColorCutQuantizer {
         return queue
     }
     
-    private func generateAverageColors(vboxes: PriorityQueue<Vbox>) -> [Palette.Swatch] {
+    private func generateAverageColors(_ vboxes: PriorityQueue<Vbox>) -> [Palette.Swatch] {
         var colors: [Palette.Swatch] = []
         for vbox in vboxes {
             let swatch = vbox.getAverageColor()
@@ -169,7 +169,7 @@ class ColorCutQuantizer {
             var maxBlue = Int.min
             var count = 0
             
-            for (var i = lowerIndex; i <= upperIndex; i++) {
+            for i in lowerIndex...upperIndex {
                 let color = self.colors[i]
                 count += self.histogram[color]!
                 
@@ -256,17 +256,18 @@ class ColorCutQuantizer {
             // We need to sort the colors in this box based on the longest color dimension.
             // As we can't use a Comparator to define the sort logic, we modify each color so that
             // its most significant is the desired dimension
-            ColorCutQuantizer.modifySignificantOctet(colors, dimension: longestDimension, lower: lowerIndex, upper: upperIndex)
+            ColorCutQuantizer.modifySignificantOctet(&colors, dimension: longestDimension, lower: lowerIndex, upper: upperIndex)
             
-            colors = colors[0..<lowerIndex] +
-                colors[lowerIndex...upperIndex].sort(<) +
-                colors[(upperIndex+1)..<colors.count]
+            colors = [Int](colors[0..<lowerIndex])
+                + colors[lowerIndex...upperIndex].sorted(by: <)
+                + [Int](colors[(upperIndex+1)..<colors.count])
             
             // Now revert all of the colors so that they are packed as RGB again
-            ColorCutQuantizer.modifySignificantOctet(colors, dimension: longestDimension, lower: lowerIndex, upper: upperIndex)
+            ColorCutQuantizer.modifySignificantOctet(&colors, dimension: longestDimension, lower: lowerIndex, upper: upperIndex)
             
             let midPoint: Int = population / 2
-            for (var i = lowerIndex, count = 0; i <= upperIndex; i++)  {
+            var count: Int = 0
+            for i in lowerIndex...upperIndex {
                 count += histogram[colors[i]]!
                 if (count >= midPoint) {
                     return i
@@ -284,8 +285,8 @@ class ColorCutQuantizer {
             var greenSum = 0;
             var blueSum = 0;
             var totalPopulation = 0;
-            
-            for (var i = lowerIndex; i <= upperIndex; i++) {
+
+            for i in lowerIndex...upperIndex {
                 let color = colors[i]
                 let colorPopulation = histogram[color]!
                 
@@ -307,7 +308,7 @@ class ColorCutQuantizer {
     /**
     * Quantized a RGB888 value to have a word width of {@value #QUANTIZE_WORD_WIDTH}.
     */
-    private static func quantizeFromRgb888(red: UInt8, green: UInt8, blue: UInt8) -> Int {
+    private static func quantizeFromRgb888(_ red: UInt8, green: UInt8, blue: UInt8) -> Int {
         let r = modifyWordWidth(Int(red), currentWidth: 8, targetWidth: QUANTIZE_WORD_WIDTH)
         let g = modifyWordWidth(Int(green), currentWidth: 8, targetWidth: QUANTIZE_WORD_WIDTH)
         let b = modifyWordWidth(Int(blue), currentWidth: 8, targetWidth: QUANTIZE_WORD_WIDTH)
@@ -317,33 +318,33 @@ class ColorCutQuantizer {
     /**
     * Quantized RGB888 values to have a word width of {@value #QUANTIZE_WORD_WIDTH}.
     */
-    private static func approximateToRgb888(r: Int, g: Int, b: Int) -> UIColor {
+    private static func approximateToRgb888(_ r: Int, g: Int, b: Int) -> UIColor {
         return UIColor(red: CGFloat(modifyWordWidth(r, currentWidth: QUANTIZE_WORD_WIDTH, targetWidth: 8))/255.0,
             green: CGFloat(modifyWordWidth(g, currentWidth: QUANTIZE_WORD_WIDTH, targetWidth: 8))/255.0, blue: CGFloat(modifyWordWidth(b, currentWidth: QUANTIZE_WORD_WIDTH, targetWidth: 8))/255.0, alpha: 1.0)
     }
     
-    private static func approximateToRgb888(color: Int) -> UIColor {
+    private static func approximateToRgb888(_ color: Int) -> UIColor {
         return approximateToRgb888(quantizedRed(color), g: quantizedGreen(color), b: quantizedBlue(color))
     }
     
     /**
     * @return red component of the quantized color
     */
-    private static func quantizedRed(color: Int) -> Int {
+    private static func quantizedRed(_ color: Int) -> Int {
         return (color >> (QUANTIZE_WORD_WIDTH + QUANTIZE_WORD_WIDTH)) & QUANTIZE_WORD_MASK
     }
     
     /**
     * @return green component of a quantized color
     */
-    private static func quantizedGreen(color: Int) -> Int {
+    private static func quantizedGreen(_ color: Int) -> Int {
         return (color >> QUANTIZE_WORD_WIDTH) & QUANTIZE_WORD_MASK
     }
     
     /**
     * @return blue component of a quantized color
     */
-    private static func quantizedBlue(color: Int) -> Int {
+    private static func quantizedBlue(_ color: Int) -> Int {
         return color & QUANTIZE_WORD_MASK
     }
     
@@ -353,14 +354,14 @@ class ColorCutQuantizer {
     *
     * @see Vbox#findSplitPoint()
     */
-    private static func modifySignificantOctet(var a: [Int], dimension: Dimension, lower: Int, upper: Int) {
+    private static func modifySignificantOctet(_ a: inout [Int], dimension: Dimension, lower: Int, upper: Int) {
         switch (dimension) {
             case Dimension.COMPONENT_RED:
             // Already in RGB, no need to do anything
             break;
             case Dimension.COMPONENT_GREEN:
             // We need to do a RGB to GRB swap, or vice-versa
-            for (var i = lower; i <= upper; i++) {
+            for i in lower...upper {
                 let color = a[i]
                 a[i] = quantizedGreen(color) << (QUANTIZE_WORD_WIDTH + QUANTIZE_WORD_WIDTH)
                 | quantizedRed(color) << QUANTIZE_WORD_WIDTH
@@ -369,7 +370,7 @@ class ColorCutQuantizer {
             break;
             case Dimension.COMPONENT_BLUE:
             // We need to do a RGB to BGR swap, or vice-versa
-            for (var i = lower; i <= upper; i++) {
+                for i in lower...upper {
                 let color = a[i]
                 a[i] = quantizedBlue(color) << (QUANTIZE_WORD_WIDTH + QUANTIZE_WORD_WIDTH)
                 | quantizedGreen(color) << QUANTIZE_WORD_WIDTH
@@ -379,7 +380,7 @@ class ColorCutQuantizer {
         }
     }
     
-    private static func modifyWordWidth(value: Int, currentWidth: Int, targetWidth: Int) -> Int {
+    private static func modifyWordWidth(_ value: Int, currentWidth: Int, targetWidth: Int) -> Int {
         let newValue = targetWidth > currentWidth ?
             // If we're approximating up in word width, we'll shift up
             value << (targetWidth - currentWidth) :
@@ -403,10 +404,13 @@ func == (lhs: ColorCutQuantizer.Vbox, rhs: ColorCutQuantizer.Vbox) -> Bool {
 extension CGImage {
     func getPixelColor(pos: CGPoint) -> UIColor {
         
-        let pixelData = CGDataProviderCopyData(CGImageGetDataProvider(self))
+        guard let pixelData = dataProvider?.data  else {
+            return UIColor.clear //Maybe return nil?
+        }
+        
         let data: UnsafePointer<UInt8> = CFDataGetBytePtr(pixelData)
         
-        let pixelInfo: Int = ((CGImageGetWidth(self) * Int(pos.y)) + Int(pos.x)) * 4
+        let pixelInfo: Int = ((self.width * Int(pos.y)) + Int(pos.x)) * 4
         
         let r = CGFloat(data[pixelInfo]) / CGFloat(255.0)
         let g = CGFloat(data[pixelInfo+1]) / CGFloat(255.0)
