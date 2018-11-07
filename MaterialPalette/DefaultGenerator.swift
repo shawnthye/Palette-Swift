@@ -53,28 +53,52 @@ class DefaultGenerator {
     }
     
     func generateVariationColors() {
-        vibrantSwatch = findColorVariation(TARGET_NORMAL_LUMA, minLuma: MIN_NORMAL_LUMA, maxLuma: MAX_NORMAL_LUMA,
-            targetSaturation: TARGET_VIBRANT_SATURATION, minSaturation: MIN_VIBRANT_SATURATION, maxSaturation: 1.0)
+        vibrantSwatch = findColorVariation(TARGET_NORMAL_LUMA,
+                                           minLuma: MIN_NORMAL_LUMA,
+                                           maxLuma: MAX_NORMAL_LUMA,
+                                           targetSaturation: TARGET_VIBRANT_SATURATION,
+                                           minSaturation: MIN_VIBRANT_SATURATION,
+                                           maxSaturation: 1.0)
         
-        lightVibrantSwatch = findColorVariation(TARGET_LIGHT_LUMA, minLuma: MIN_LIGHT_LUMA, maxLuma: 1.0,
-            targetSaturation: TARGET_VIBRANT_SATURATION, minSaturation: MIN_VIBRANT_SATURATION, maxSaturation: 1.0)
+        lightVibrantSwatch = findColorVariation(TARGET_LIGHT_LUMA,
+                                                minLuma: MIN_LIGHT_LUMA,
+                                                maxLuma: 1.0,
+                                                targetSaturation: TARGET_VIBRANT_SATURATION,
+                                                minSaturation: MIN_VIBRANT_SATURATION,
+                                                maxSaturation: 1.0)
         
-        darkVibrantSwatch = findColorVariation(TARGET_DARK_LUMA, minLuma: 0.0, maxLuma: MAX_DARK_LUMA,
-            targetSaturation: TARGET_VIBRANT_SATURATION, minSaturation: MIN_VIBRANT_SATURATION, maxSaturation: 1.0)
+        darkVibrantSwatch = findColorVariation(TARGET_DARK_LUMA,
+                                               minLuma: 0.0,
+                                               maxLuma: MAX_DARK_LUMA,
+                                               targetSaturation: TARGET_VIBRANT_SATURATION,
+                                               minSaturation: MIN_VIBRANT_SATURATION,
+                                               maxSaturation: 1.0)
         
-        mutedSwatch = findColorVariation(TARGET_NORMAL_LUMA, minLuma: MIN_NORMAL_LUMA, maxLuma: MAX_NORMAL_LUMA,
-            targetSaturation: TARGET_MUTED_SATURATION, minSaturation: 0.0, maxSaturation: MAX_MUTED_SATURATION)
+        mutedSwatch = findColorVariation(TARGET_NORMAL_LUMA,
+                                         minLuma: MIN_NORMAL_LUMA,
+                                         maxLuma: MAX_NORMAL_LUMA,
+                                         targetSaturation: TARGET_MUTED_SATURATION,
+                                         minSaturation: 0.0,
+                                         maxSaturation: MAX_MUTED_SATURATION)
         
-        lightMutedSwatch = findColorVariation(TARGET_LIGHT_LUMA, minLuma: MIN_LIGHT_LUMA, maxLuma: 1.0,
-            targetSaturation: TARGET_MUTED_SATURATION, minSaturation: 0.0, maxSaturation: MAX_MUTED_SATURATION)
+        lightMutedSwatch = findColorVariation(TARGET_LIGHT_LUMA,
+                                              minLuma: MIN_LIGHT_LUMA,
+                                              maxLuma: 1.0,
+                                              targetSaturation: TARGET_MUTED_SATURATION,
+                                              minSaturation: 0.0,
+                                              maxSaturation: MAX_MUTED_SATURATION)
         
-        darkMutedSwatch = findColorVariation(TARGET_DARK_LUMA, minLuma: 0.0, maxLuma: MAX_DARK_LUMA,
-            targetSaturation: TARGET_MUTED_SATURATION, minSaturation: 0.0, maxSaturation: MAX_MUTED_SATURATION)
+        darkMutedSwatch = findColorVariation(TARGET_DARK_LUMA,
+                                             minLuma: 0.0,
+                                             maxLuma: MAX_DARK_LUMA,
+                                             targetSaturation: TARGET_MUTED_SATURATION,
+                                             minSaturation: 0.0,
+                                             maxSaturation: MAX_MUTED_SATURATION)
     }
     
     /**
-    * Try and generate any missing swatches from the swatches we did find.
-    */
+     * Try and generate any missing swatches from the swatches we did find.
+     */
     private func generateEmptySwatches() {
         if (vibrantSwatch == nil) {
             // If we do not have a vibrant color...
@@ -85,7 +109,7 @@ class DefaultGenerator {
                 }
             }
         }
-            
+        
         if (darkVibrantSwatch == nil) {
             // If we do not have a dark vibrant color...
             if let vibrantSwatch = vibrantSwatch {
@@ -99,8 +123,8 @@ class DefaultGenerator {
     
     
     /**
-    * Find the {@link Palette.Swatch} with the highest population value and return the population.
-    */
+     * Find the {@link Palette.Swatch} with the highest population value and return the population.
+     */
     private func findMaxPopulation() -> Int {
         var population = 0;
         if let swatches = self.swatches {
@@ -111,8 +135,13 @@ class DefaultGenerator {
         return population
     }
     
-    private func findColorVariation(targetLuma: CGFloat, minLuma: CGFloat, maxLuma: CGFloat,
-            targetSaturation: CGFloat, minSaturation: CGFloat, maxSaturation: CGFloat) -> Palette.Swatch? {
+    private func findColorVariation(_ targetLuma: CGFloat,
+                                    minLuma: CGFloat,
+                                    maxLuma: CGFloat,
+                                    targetSaturation: CGFloat,
+                                    minSaturation: CGFloat,
+                                    maxSaturation: CGFloat) -> Palette.Swatch? {
+        
         var max: Palette.Swatch? = nil
         var maxValue: CGFloat = 0.0
         
@@ -125,12 +154,16 @@ class DefaultGenerator {
                     if (sat >= minSaturation && sat <= maxSaturation &&
                         luma >= minLuma && luma <= maxLuma &&
                         !isAlreadySelected(swatch)) {
-                            let value = createComparisonValue(sat, targetSaturation: targetSaturation, luma: luma, targetLuma: targetLuma,
-                                population: swatch.population, maxPopulation: highestPopulation!)
-                            if (max == nil || value > maxValue) {
-                                max = swatch
-                                maxValue = value
-                            }
+                        let value = createComparisonValue(sat,
+                                                          targetSaturation: targetSaturation,
+                                                          luma: luma,
+                                                          targetLuma: targetLuma,
+                                                          population: swatch.population,
+                                                          maxPopulation: highestPopulation!)
+                        if (max == nil || value > maxValue) {
+                            max = swatch
+                            maxValue = value
+                        }
                     }
                 }
                 
@@ -142,50 +175,66 @@ class DefaultGenerator {
     }
     
     /**
-    * @return true if we have already selected {@code swatch}
-    */
-    private func isAlreadySelected(swatch: Palette.Swatch) -> Bool {
+     * @return true if we have already selected {@code swatch}
+     */
+    private func isAlreadySelected(_ swatch: Palette.Swatch) -> Bool {
         return vibrantSwatch == swatch || darkVibrantSwatch == swatch ||
-        lightVibrantSwatch == swatch || mutedSwatch == swatch ||
-        darkMutedSwatch == swatch || lightMutedSwatch == swatch
+            lightVibrantSwatch == swatch || mutedSwatch == swatch ||
+            darkMutedSwatch == swatch || lightMutedSwatch == swatch
     }
     
-    private func createComparisonValue(saturation: CGFloat, targetSaturation: CGFloat,
-        luma: CGFloat, targetLuma: CGFloat,
-        population: Int, maxPopulation: Int) -> CGFloat {
-            return createComparisonValue(saturation, targetSaturation: targetSaturation, saturationWeight: WEIGHT_SATURATION,
-                luma: luma, targetLuma: targetLuma, lumaWeight: WEIGHT_LUMA,
-                population: population, maxPopulation: maxPopulation, populationWeight: WEIGHT_POPULATION)
+    private func createComparisonValue(_ saturation: CGFloat,
+                                       targetSaturation: CGFloat,
+                                       luma: CGFloat,
+                                       targetLuma: CGFloat,
+                                       population: Int,
+                                       maxPopulation: Int) -> CGFloat {
+        
+        return createComparisonValue(saturation,
+                                     targetSaturation: targetSaturation,
+                                     saturationWeight: WEIGHT_SATURATION,
+                                     luma: luma,
+                                     targetLuma: targetLuma,
+                                     lumaWeight: WEIGHT_LUMA,
+                                     population: population,
+                                     maxPopulation: maxPopulation,
+                                     populationWeight: WEIGHT_POPULATION)
     }
     
-    private func createComparisonValue(
-        saturation: CGFloat, targetSaturation: CGFloat, saturationWeight: CGFloat,
-        luma: CGFloat, targetLuma: CGFloat, lumaWeight: CGFloat,
-        population: Int, maxPopulation: Int, populationWeight: CGFloat) -> CGFloat {
-            return weightedMean(
-                invertDiff(saturation, targetValue: targetSaturation), saturationWeight,
-                invertDiff(luma, targetValue: targetLuma), lumaWeight,
-                CGFloat(population) / CGFloat(maxPopulation), populationWeight
-            )
+    private func createComparisonValue(_ saturation: CGFloat,
+                                       targetSaturation: CGFloat,
+                                       saturationWeight: CGFloat,
+                                       luma: CGFloat,
+                                       targetLuma: CGFloat,
+                                       lumaWeight: CGFloat,
+                                       population: Int,
+                                       maxPopulation: Int,
+                                       populationWeight: CGFloat) -> CGFloat {
+        
+        return weightedMean(
+            invertDiff(saturation, targetValue: targetSaturation), saturationWeight,
+            invertDiff(luma, targetValue: targetLuma), lumaWeight,
+            CGFloat(population) / CGFloat(maxPopulation), populationWeight
+        )
     }
     
     /**
-    * Returns a value in the range 0-1. 1 is returned when {@code value} equals the
-    * {@code targetValue} and then decreases as the absolute difference between {@code value} and
-    * {@code targetValue} increases.
-    *
-    * @param value the item's value
-    * @param targetValue the value which we desire
-    */
-    private func invertDiff(value: CGFloat, targetValue: CGFloat) -> CGFloat {
+     * Returns a value in the range 0-1. 1 is returned when {@code value} equals the
+     * {@code targetValue} and then decreases as the absolute difference between {@code value} and
+     * {@code targetValue} increases.
+     *
+     * @param value the item's value
+     * @param targetValue the value which we desire
+     */
+    private func invertDiff(_ value: CGFloat, targetValue: CGFloat) -> CGFloat {
         return 1.0 - abs(value - targetValue)
     }
-
-    private func weightedMean(values: CGFloat...) -> CGFloat {
+    
+    private func weightedMean(_ values: CGFloat...) -> CGFloat {
         var sum: CGFloat = 0
         var sumWeight: CGFloat = 0
         
-        for (var i = 0; i < values.count; i += 2) {
+        for i in stride(from: 0, to: values.count, by: 2) {
             let value = values[i]
             let weight = values[i + 1]
             
@@ -195,5 +244,5 @@ class DefaultGenerator {
         
         return sum / sumWeight
     }
-
+    
 }
