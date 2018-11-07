@@ -8,11 +8,13 @@
 
 import UIKit
 import XCTest
+import MaterialPalette
 
 class MaterialPaletteTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
+//        Palette.init(uiImage: <#T##UIImage#>)
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
     

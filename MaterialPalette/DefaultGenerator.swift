@@ -41,7 +41,7 @@ class DefaultGenerator {
     var lightVibrantSwatch: Palette.Swatch?
     var lightMutedSwatch: Palette.Swatch?
     
-    func generate(swatches: [Palette.Swatch]) {
+    func generate(_ swatches: [Palette.Swatch]) {
         self.swatches = swatches
         
         self.highestPopulation = findMaxPopulation()

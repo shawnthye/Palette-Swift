@@ -89,7 +89,7 @@ class ColorUtils {
     * @param minContrastRatio the minimum contrast ratio.
     * @return the alpha value in the range 0-255, or nil if no value could be calculated.
     */
-    static func calculateMinimumAlpha(foreground: Int, background: Int, minContrastRatio: Float) -> Int? {
+    static func calculateMinimumAlpha(_ foreground: Int, background: Int, minContrastRatio: Float) -> Int? {
         if (getAlphaComponent(background) != 255) {
             // background can not be translucent
             return nil
