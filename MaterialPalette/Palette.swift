@@ -16,7 +16,7 @@ public class Palette {
     public let swatches: [Swatch]
     let generator: DefaultGenerator
     
-    public init?(uiImage: UIImage) {
+    public init?(_ uiImage: UIImage) {
         
         // We have a Bitmap so we need to quantization to reduce the number of colors
         
@@ -31,7 +31,7 @@ public class Palette {
         
         // If we haven't been provided with a generator, use the default
         // if (mGenerator == null) {
-            generator = DefaultGenerator()
+        generator = DefaultGenerator()
         // }
         
         // Now call let the Generator do it's thing
@@ -120,22 +120,22 @@ public class Palette {
                 let maybeLightTitleAlpha = ColorUtils.calculateMinimumAlpha(0xffffff, background: rgb, minContrastRatio: MIN_CONTRAST_TITLE_TEXT)
                 let maybeLightBodyAlpha = ColorUtils.calculateMinimumAlpha(0xffffff, background: rgb, minContrastRatio: MIN_CONTRAST_BODY_TEXT)
                 if let lightTitleAlpha = maybeLightTitleAlpha,
-                      let  lightBodyAlpha = maybeLightBodyAlpha {
+                    let  lightBodyAlpha = maybeLightBodyAlpha {
                     return [UIColor.white.withAlphaComponent(CGFloat(lightTitleAlpha)/255.0),
                             UIColor.white.withAlphaComponent(CGFloat(lightBodyAlpha)/255.0)]
                 }
                 let maybeDarkTitleAlpha = ColorUtils.calculateMinimumAlpha(0x00000000, background: rgb, minContrastRatio: MIN_CONTRAST_TITLE_TEXT)
                 let maybeDarkBodyAlpha = ColorUtils.calculateMinimumAlpha(0x00000000, background: rgb, minContrastRatio: MIN_CONTRAST_BODY_TEXT)
                 if let darkTitleAlpha = maybeDarkTitleAlpha,
-                      let darkBodyAlpha = maybeDarkBodyAlpha {
+                    let darkBodyAlpha = maybeDarkBodyAlpha {
                     return [UIColor.black.withAlphaComponent(CGFloat(darkTitleAlpha)/255.0),
                             UIColor.black.withAlphaComponent(CGFloat(darkBodyAlpha)/255.0)]
                 }
                 // if we reach here, we need to use mismatched light/dark
                 if let darkTitleAlpha = maybeDarkTitleAlpha,
-                      let lightBodyAlpha = maybeLightBodyAlpha {
+                    let lightBodyAlpha = maybeLightBodyAlpha {
                     return [UIColor.black.withAlphaComponent(CGFloat(darkTitleAlpha)/255.0),
-                        UIColor.white.withAlphaComponent(CGFloat(lightBodyAlpha)/255.0)]
+                            UIColor.white.withAlphaComponent(CGFloat(lightBodyAlpha)/255.0)]
                 }
                 else if let lightTitleAlpha = maybeLightTitleAlpha,
                     let darkBodyAlpha = maybeDarkBodyAlpha {

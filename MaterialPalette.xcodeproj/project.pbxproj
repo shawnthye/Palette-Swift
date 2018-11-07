@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		73BF4E632192DA41005282C4 /* instagram_logo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 73BF4E622192DA41005282C4 /* instagram_logo.jpg */; };
 		F428A2181BE3F8F700238624 /* MaterialPalette.h in Headers */ = {isa = PBXBuildFile; fileRef = F428A2171BE3F8F700238624 /* MaterialPalette.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F428A21E1BE3F8F700238624 /* MaterialPalette.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F428A2121BE3F8F700238624 /* MaterialPalette.framework */; };
 		F428A2251BE3F8F700238624 /* MaterialPaletteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F428A2241BE3F8F700238624 /* MaterialPaletteTests.swift */; };
@@ -29,6 +30,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		73BF4E622192DA41005282C4 /* instagram_logo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = instagram_logo.jpg; sourceTree = "<group>"; };
 		F428A2121BE3F8F700238624 /* MaterialPalette.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MaterialPalette.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F428A2161BE3F8F700238624 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F428A2171BE3F8F700238624 /* MaterialPalette.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MaterialPalette.h; sourceTree = "<group>"; };
@@ -62,6 +64,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		73BF4E662192DE6A005282C4 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				73BF4E622192DA41005282C4 /* instagram_logo.jpg */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		F428A2081BE3F8F700238624 = {
 			isa = PBXGroup;
 			children = (
@@ -101,6 +111,7 @@
 		F428A2211BE3F8F700238624 /* MaterialPaletteTests */ = {
 			isa = PBXGroup;
 			children = (
+				73BF4E662192DE6A005282C4 /* Resources */,
 				F428A2241BE3F8F700238624 /* MaterialPaletteTests.swift */,
 				F428A2221BE3F8F700238624 /* Supporting Files */,
 			);
@@ -225,6 +236,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				73BF4E632192DA41005282C4 /* instagram_logo.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,7 +312,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -343,7 +355,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 4.2;
