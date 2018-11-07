@@ -105,7 +105,8 @@ class DefaultGenerator {
             if let darkVibrantSwatch = darkVibrantSwatch {
                 // ...but we do have a dark vibrant, generate the value by modifying the luma
                 if let hsl = darkVibrantSwatch.color.hsb() {
-                    vibrantSwatch = Palette.Swatch(color: UIColor(hue: hsl[0], saturation: hsl[1], brightness: TARGET_NORMAL_LUMA, alpha: hsl[3]), population: 0)
+                    vibrantSwatch = Palette.Swatch(color: UIColor(hue: hsl[0], saturation: hsl[1], brightness: TARGET_NORMAL_LUMA, alpha: hsl[3]),
+                                                   population: 0)
                 }
             }
         }
@@ -115,7 +116,8 @@ class DefaultGenerator {
             if let vibrantSwatch = vibrantSwatch {
                 // ...but we do have a vibrant, generate the value by modifying the luma
                 if let hsl = vibrantSwatch.color.hsb() {
-                    darkVibrantSwatch = Palette.Swatch(color: UIColor(hue: hsl[0], saturation: hsl[1], brightness: TARGET_DARK_LUMA, alpha: hsl[3]), population: 0)
+                    darkVibrantSwatch = Palette.Swatch(color: UIColor(hue: hsl[0], saturation: hsl[1], brightness: TARGET_DARK_LUMA, alpha: hsl[3]),
+                                                       population: 0)
                 }
             }
         }
@@ -178,9 +180,12 @@ class DefaultGenerator {
      * @return true if we have already selected {@code swatch}
      */
     private func isAlreadySelected(_ swatch: Palette.Swatch) -> Bool {
-        return vibrantSwatch == swatch || darkVibrantSwatch == swatch ||
-            lightVibrantSwatch == swatch || mutedSwatch == swatch ||
-            darkMutedSwatch == swatch || lightMutedSwatch == swatch
+        return vibrantSwatch == swatch
+            || darkVibrantSwatch == swatch
+            || lightVibrantSwatch == swatch
+            || mutedSwatch == swatch
+            || darkMutedSwatch == swatch
+            || lightMutedSwatch == swatch
     }
     
     private func createComparisonValue(_ saturation: CGFloat,
