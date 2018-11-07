@@ -62,7 +62,7 @@ extension  UIImage {
     
     // Provide closure which will return new color value for pixel using any condition you want inside the closure.
     
-    func applyOnPixels(closure:ModifyPixelsClosure) -> UIImage? {
+    func applyOnPixels(_ closure:ModifyPixelsClosure) -> UIImage? {
         let inImage:CGImage = self.cgImage!
         let context = self.createARGBBitmapContext(inImage)
         let pixelsWide = inImage.width
