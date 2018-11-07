@@ -169,7 +169,7 @@ class ColorCutQuantizer {
             var maxBlue = Int.min
             var count = 0
             
-            for i in lowerIndex...upperIndex {
+            for i in stride(from: lowerIndex, to: upperIndex, by: 1) {
                 let color = self.colors[i]
                 count += self.histogram[color]!
                 

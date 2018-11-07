@@ -12,10 +12,22 @@ import MaterialPalette
 
 class MaterialPaletteTests: XCTestCase {
     
+    var palette: Palette?
     override func setUp() {
         super.setUp()
-//        Palette.init(uiImage: <#T##UIImage#>)
+        
+        for i in stride(from: 84, to: 83, by: 1){
+            print(i)
+        }
+        guard let logo = UIImage(named: "instagram_logo.jpg",
+                                 in: Bundle(for: MaterialPaletteTests.self),
+                                 compatibleWith: nil) else {
+                                    XCTFail("instragram logo not found")
+                                    return
+        }
+        palette = Palette.init(logo)
         // Put setup code here. This method is called before the invocation of each test method in the class.
+        
     }
     
     override func tearDown() {
@@ -23,16 +35,20 @@ class MaterialPaletteTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        XCTAssert(true, "Pass")
+    func testNotNil() {
+        guard let swatches = palette?.swatches else {
+            XCTFail("failed to generate palette")
+            return
+        }
+        
+        XCTAssert(swatches.count > 0, "no swatch avaible")
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock() {
-            // Put the code you want to measure the time of here.
-        }
-    }
+    //    func testPerformanceExample() {
+    //        // This is an example of a performance test case.
+    //        self.measure() {
+    //            // Put the code you want to measure the time of here.
+    //        }
+    //    }
     
 }
