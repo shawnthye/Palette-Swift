@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		735A0CE32195BB3600E34FC6 /* Target.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735A0CE22195BB3600E34FC6 /* Target.swift */; };
+		735A0CE52195BEE100E34FC6 /* Target.Builder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735A0CE42195BEE100E34FC6 /* Target.Builder.swift */; };
+		735A0CE72195BF1B00E34FC6 /* Target.BuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735A0CE62195BF1B00E34FC6 /* Target.BuilderTests.swift */; };
 		73BF4E632192DA41005282C4 /* instagram_logo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 73BF4E622192DA41005282C4 /* instagram_logo.jpg */; };
 		F428A2181BE3F8F700238624 /* Palette.h in Headers */ = {isa = PBXBuildFile; fileRef = F428A2171BE3F8F700238624 /* Palette.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F428A21E1BE3F8F700238624 /* Palette.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F428A2121BE3F8F700238624 /* Palette.framework */; };
@@ -30,6 +33,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		735A0CE22195BB3600E34FC6 /* Target.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Target.swift; sourceTree = "<group>"; };
+		735A0CE42195BEE100E34FC6 /* Target.Builder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Target.Builder.swift; sourceTree = "<group>"; };
+		735A0CE62195BF1B00E34FC6 /* Target.BuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Target.BuilderTests.swift; sourceTree = "<group>"; };
 		73BF4E622192DA41005282C4 /* instagram_logo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = instagram_logo.jpg; sourceTree = "<group>"; };
 		F428A2121BE3F8F700238624 /* Palette.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Palette.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F428A2161BE3F8F700238624 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -111,8 +117,9 @@
 		F428A2211BE3F8F700238624 /* PaletteTests */ = {
 			isa = PBXGroup;
 			children = (
-				73BF4E662192DE6A005282C4 /* Resources */,
 				F428A2241BE3F8F700238624 /* PaletteTests.swift */,
+				735A0CE62195BF1B00E34FC6 /* Target.BuilderTests.swift */,
+				73BF4E662192DE6A005282C4 /* Resources */,
 				F428A2221BE3F8F700238624 /* Supporting Files */,
 			);
 			path = PaletteTests;
@@ -135,6 +142,8 @@
 				F428A2351BE459FC00238624 /* UIImageExtension.swift */,
 				F428A2371BE5537300238624 /* SwiftPriorityQueue.swift */,
 				F428A23B1BE5623B00238624 /* DefaultGenerator.swift */,
+				735A0CE22195BB3600E34FC6 /* Target.swift */,
+				735A0CE42195BEE100E34FC6 /* Target.Builder.swift */,
 			);
 			name = src;
 			sourceTree = "<group>";
@@ -249,6 +258,8 @@
 			files = (
 				F428A2341BE405C200238624 /* ColorUtils.swift in Sources */,
 				F428A2301BE3FB0E00238624 /* ColorCutQuantizer.swift in Sources */,
+				735A0CE32195BB3600E34FC6 /* Target.swift in Sources */,
+				735A0CE52195BEE100E34FC6 /* Target.Builder.swift in Sources */,
 				F428A2321BE3FC4700238624 /* Palette.swift in Sources */,
 				F428A2361BE459FC00238624 /* UIImageExtension.swift in Sources */,
 				F428A2381BE5537300238624 /* SwiftPriorityQueue.swift in Sources */,
@@ -261,6 +272,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F428A2251BE3F8F700238624 /* PaletteTests.swift in Sources */,
+				735A0CE72195BF1B00E34FC6 /* Target.BuilderTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
