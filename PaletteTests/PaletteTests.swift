@@ -21,7 +21,7 @@ class PaletteTests: XCTestCase {
             print(i)
         }
         guard let logo = UIImage(named: "instagram_logo.jpg",
-                                 in: Bundle(for: MaterialPaletteTests.self),
+                                 in: Bundle(for: PaletteTests.self),
                                  compatibleWith: nil) else {
                                     XCTFail("instragram logo not found")
                                     return
