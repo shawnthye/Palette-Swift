@@ -12,9 +12,8 @@ import Palette
 
 class TargetBuilderTests: XCTestCase {
     override func setUp() {
-        let target: Target? = nil
-        target?.minimumSaturation
-        target?.targetSaturation
+        let target: Target? = Target.Builder().build()
+        
         
         
     }

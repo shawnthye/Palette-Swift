@@ -16,56 +16,56 @@ import Foundation
  * Palette.</p>
  */
 public class Target {
-    private static let TARGET_DARK_LUMA: Float = 0.26;
-    private static let MAX_DARK_LUMA: Float = 0.45;
+    private static let TARGET_DARK_LUMA: Float = 0.26
+    private static let MAX_DARK_LUMA: Float = 0.45
     
-    private static let MIN_LIGHT_LUMA: Float = 0.55;
-    private static let TARGET_LIGHT_LUMA: Float = 0.74;
+    private static let MIN_LIGHT_LUMA: Float = 0.55
+    private static let TARGET_LIGHT_LUMA: Float = 0.74
     
-    private static let MIN_NORMAL_LUMA: Float = 0.3;
-    private static let TARGET_NORMAL_LUMA: Float = 0.5;
-    private static let MAX_NORMAL_LUMA: Float = 0.7;
+    private static let MIN_NORMAL_LUMA: Float = 0.3
+    private static let TARGET_NORMAL_LUMA: Float = 0.5
+    private static let MAX_NORMAL_LUMA: Float = 0.7
     
-    private static let TARGET_MUTED_SATURATION: Float = 0.3;
-    private static let MAX_MUTED_SATURATION: Float = 0.4;
+    private static let TARGET_MUTED_SATURATION: Float = 0.3
+    private static let MAX_MUTED_SATURATION: Float = 0.4
     
     private static let TARGET_VIBRANT_SATURATION: Float = 1
-    private static let MIN_VIBRANT_SATURATION: Float = 0.35;
+    private static let MIN_VIBRANT_SATURATION: Float = 0.35
     
-    private static let WEIGHT_SATURATION: Float = 0.24;
-    private static let WEIGHT_LUMA: Float = 0.52;
-    private static let WEIGHT_POPULATION: Float = 0.24;
+    private static let WEIGHT_SATURATION: Float = 0.24
+    private static let WEIGHT_LUMA: Float = 0.52
+    private static let WEIGHT_POPULATION: Float = 0.24
     
-    static let INDEX_MIN: Int = 0;
-    static let INDEX_TARGET: Int = 1;
-    static let INDEX_MAX: Int = 2;
+    static let INDEX_MIN: Int = 0
+    static let INDEX_TARGET: Int = 1
+    static let INDEX_MAX: Int = 2
     
-    static let INDEX_WEIGHT_SAT: Int = 0;
-    static let INDEX_WEIGHT_LUMA: Int = 1;
-    static let INDEX_WEIGHT_POP: Int = 2;
+    static let INDEX_WEIGHT_SAT: Int = 0
+    static let INDEX_WEIGHT_LUMA: Int = 1
+    static let INDEX_WEIGHT_POP: Int = 2
     
-    private var mSaturationTargets = [Float](repeating: 0, count: 3)
-    private var mLightnessTargets = [Float](repeating: 0, count: 3)
-    private var mWeights = [Float](repeating: 0, count: 3)
+    private var saturationTargets = [Float](repeating: 0, count: 3)
+    private var lightnessTargets = [Float](repeating: 0, count: 3)
+    private var weights = [Float](repeating: 0, count: 3)
     
-    private var mIsExclusive = true // default to true
+    private var isExclusive = true // default to true
     
     required init() {
-        Target.setTargetDefaultValues(&mSaturationTargets);
-        Target.setTargetDefaultValues(&mLightnessTargets);
+        Target.setTargetDefaultValues(&saturationTargets)
+        Target.setTargetDefaultValues(&lightnessTargets)
     }
     
     required init(from: Target) {
-        mSaturationTargets = [Float](from.mSaturationTargets)
-        mLightnessTargets = [Float](from.mLightnessTargets)
-        mWeights = [Float](from.mWeights)
+        saturationTargets = [Float](from.saturationTargets)
+        lightnessTargets = [Float](from.lightnessTargets)
+        weights = [Float](from.weights)
     }
     /**
      * The minimum saturation value for this target.
      * - @FloatRange(from = 0, to = 1)
      */
     public var minimumSaturation: Float {
-        get { return mSaturationTargets[Target.INDEX_MIN] }
+        get { return saturationTargets[Target.INDEX_MIN] }
     }
     
     /**
@@ -73,7 +73,7 @@ public class Target {
      * - @FloatRange(from = 0, to = 1)
      */
     public var targetSaturation: Float {
-        get { return mSaturationTargets[Target.INDEX_TARGET] }
+        get { return saturationTargets[Target.INDEX_TARGET] }
     }
     
     /**
@@ -81,7 +81,7 @@ public class Target {
      * - @FloatRange(from = 0, to = 1)
      */
     public var maximumSaturation: Float {
-        get { return mSaturationTargets[Target.INDEX_MAX] }
+        get { return saturationTargets[Target.INDEX_MAX] }
     }
     
     /**
@@ -89,7 +89,7 @@ public class Target {
      * - @FloatRange(from = 0, to = 1)
      */
     public var minimumLightness: Float {
-        get { return mLightnessTargets[Target.INDEX_MIN] }
+        get { return lightnessTargets[Target.INDEX_MIN] }
     }
     
     /**
@@ -97,7 +97,7 @@ public class Target {
      * - @FloatRange(from = 0, to = 1)
      */
     public var targetLightness: Float {
-        get { return mLightnessTargets[Target.INDEX_TARGET] }
+        get { return lightnessTargets[Target.INDEX_TARGET] }
     }
     
     /**
@@ -105,7 +105,7 @@ public class Target {
      * - @FloatRange(from = 0, to = 1)
      */
     public var maximumLightness: Float {
-        get { return mLightnessTargets[Target.INDEX_MAX] }
+        get { return lightnessTargets[Target.INDEX_MAX] }
     }
     
     /**
@@ -115,36 +115,253 @@ public class Target {
      * <p>The larger the weight, relative to the other weights, the more important that a color
      * being close to the target value has on selection.</p>
      *
-     * @see #getTargetSaturation()
+     * - see `Target#targetSaturation`
      */
     public var saturationWeight: Float {
-    return mWeights[INDEX_WEIGHT_SAT];
+        get { return weights[Target.INDEX_WEIGHT_SAT] }
     }
     
+    /**
+     * Returns the weight of importance that this target places on a color's lightness within
+     * the image.
+     *
+     * <p>The larger the weight, relative to the other weights, the more important that a color
+     * being close to the target value has on selection.</p>
+     *
+     * - see `Target#targetLightness`
+     */
+    public var lightnessWeight: Float {
+        get { return weights[Target.INDEX_WEIGHT_LUMA] }
+    }
     
-
+    /**
+     * Returns the weight of importance that this target places on a color's population within
+     * the image.
+     *
+     * - The larger the weight, relative to the other weights, the more important that a
+     * color's population being close to the most populous has on selection.</p>
+     */
+    public var populationWeight: Float {
+        get { return weights[Target.INDEX_WEIGHT_POP] }
+    }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    /**
+     * Returns whether any color selected for this target is exclusive for this target only.
+     *
+     * If **false**, then the color can be selected for other targets.
+     */
+    public var exclusive: Bool {
+        get { return isExclusive }
+    }
     
     private static func setTargetDefaultValues(_ values: inout [Float]) {
-        values[INDEX_MIN] = 0;
-        values[INDEX_TARGET] = 0.5;
-        values[INDEX_MAX] = 1;
+        values[INDEX_MIN] = 0
+        values[INDEX_TARGET] = 0.5
+        values[INDEX_MAX] = 1
     }
     
     private func setDefaultWeights() {
-        mWeights[Target.INDEX_WEIGHT_SAT] = Target.WEIGHT_SATURATION;
-        mWeights[Target.INDEX_WEIGHT_LUMA] = Target.WEIGHT_LUMA;
-        mWeights[Target.INDEX_WEIGHT_POP] = Target.WEIGHT_POPULATION;
+        weights[Target.INDEX_WEIGHT_SAT] = Target.WEIGHT_SATURATION
+        weights[Target.INDEX_WEIGHT_LUMA] = Target.WEIGHT_LUMA
+        weights[Target.INDEX_WEIGHT_POP] = Target.WEIGHT_POPULATION
+    }
+    
+    func normalizeWeights() {
+        var sum: Float = 0
+        for i in 0..<weights.count {
+            let weight = weights[i]
+            if weight > 0 {
+                sum += weight
+            }
+        }
+        if sum != 0 {
+            for i in 0..<weights.count {
+                if weights[i] > 0 {
+                    weights[i] /= sum
+                }
+            }
+        }
+    }
+    
+    private static func setDefaultDarkLightnessValues(target: Target) {
+        target.lightnessTargets[INDEX_TARGET] = TARGET_DARK_LUMA
+        target.lightnessTargets[INDEX_MAX] = MAX_DARK_LUMA
+    }
+    
+    private static func setDefaultNormalLightnessValues(target: Target) {
+        target.lightnessTargets[INDEX_MIN] = MIN_NORMAL_LUMA
+        target.lightnessTargets[INDEX_TARGET] = TARGET_NORMAL_LUMA
+        target.lightnessTargets[INDEX_MAX] = MAX_NORMAL_LUMA
+    }
+    
+    private static func setDefaultLightLightnessValues(target: Target) {
+        target.lightnessTargets[INDEX_MIN] = MIN_LIGHT_LUMA
+        target.lightnessTargets[INDEX_TARGET] = TARGET_LIGHT_LUMA
+    }
+    
+    private static func setDefaultVibrantSaturationValues(target: Target) {
+        target.saturationTargets[INDEX_MIN] = MIN_VIBRANT_SATURATION
+        target.saturationTargets[INDEX_TARGET] = TARGET_VIBRANT_SATURATION
+    }
+    
+    private static func setDefaultMutedSaturationValues(target: Target) {
+        target.saturationTargets[INDEX_TARGET] = TARGET_MUTED_SATURATION
+        target.saturationTargets[INDEX_MAX] = MAX_MUTED_SATURATION
+    }
+    
+    /**
+     * Builder class for generating custom `Target` instances.
+     */
+    public class Builder {
+        
+        private let target: Target
+        
+        /**
+         * Create a new `Target` builder from scratch.
+         */
+        public required init() {
+            self.target = Target()
+        }
+        
+        /**
+         * Create a new builder based on an existing `Target`.
+         */
+        public required init(target: Target) {
+            self.target = Target(from: target)
+        }
+        
+        /**
+         * Set the minimum saturation value for this target.
+         *
+         * - Parameter saturation: FloatRange(from = 0, to = 1)
+         */
+        public func setMinimum(saturation: Float) -> Builder {
+            target.saturationTargets[INDEX_MIN] = saturation
+            return self
+        }
+        
+        /**
+         * Set the target/ideal saturation value for this target.
+         *
+         * - Parameter saturation: @FloatRange(from = 0, to = 1)
+         */
+        public func setTarget(saturation: Float) -> Builder {
+            target.saturationTargets[INDEX_TARGET] = saturation
+            return self
+        }
+        
+        /**
+         * Set the maximum saturation value for this target.
+         *
+         * - Parameter saturation: @FloatRange(from = 0, to = 1)
+         */
+        public func setMaximum(saturation: Float) -> Builder {
+            target.saturationTargets[INDEX_MAX] = saturation
+            return self
+        }
+        
+        /**
+         * Set the minimum lightness value for this target.
+         *
+         * - Parameter lightness: @FloatRange(from = 0, to = 1)
+         */
+        public func setMinimum(lightness: Float) -> Builder {
+            target.lightnessTargets[INDEX_MIN] = lightness
+            return self
+        }
+        
+        /**
+         * Set the target/ideal lightness value for this target.
+         *
+         * - Parameter lightness: @FloatRange(from = 0, to = 1)
+         */
+        public func setTarget(lightness: Float) ->  Builder{
+            target.lightnessTargets[INDEX_TARGET] = lightness
+            return self
+        }
+        
+        /**
+         * Set the maximum lightness value for this target.
+         *
+         * - Parameter lightness: @FloatRange(from = 0, to = 1)
+         */
+        public func setMaximum(lightness: Float) -> Builder {
+            target.lightnessTargets[INDEX_MAX] = lightness
+            return self
+        }
+        
+        /**
+         * Set the weight of importance that this target will place on saturation values.
+         *
+         * <p>The larger the weight, relative to the other weights, the more important that a color
+         * being close to the target value has on selection.</p>
+         *
+         * <p>A weight of 0 means that it has no weight, and thus has no
+         * bearing on the selection.</p>
+         *
+         * - see `setTarget(saturation: Float)`
+         *
+         * - Parameter weight: @FloatRange(from = 0)
+         */
+        public func setSaturation(weight: Float) -> Builder{
+            target.weights[INDEX_WEIGHT_SAT] = weight
+            return self
+        }
+        
+        /**
+         * Set the weight of importance that this target will place on lightness values.
+         *
+         * <p>The larger the weight, relative to the other weights, the more important that a color
+         * being close to the target value has on selection.</p>
+         *
+         * <p>A weight of 0 means that it has no weight, and thus has no
+         * bearing on the selection.</p>
+         *
+         * - see `setTarget(lightness: Float)`
+         *
+         * - Parameter weight: @FloatRange(from = 0)
+         */
+        public func setLightness(weight: Float) -> Builder {
+            target.weights[INDEX_WEIGHT_LUMA] = weight
+            return self
+        }
+        
+        /**
+         * Set the weight of importance that this target will place on a color's population within
+         * the image.
+         *
+         * <p>The larger the weight, relative to the other weights, the more important that a
+         * color's population being close to the most populous has on selection.</p>
+         *
+         * <p>A weight of 0 means that it has no weight, and thus has no
+         * bearing on the selection.</p>
+         *
+         * - Parameter weight: @FloatRange(from = 0)
+         */
+        public func setPopulation(weight: Float) -> Builder {
+            target.weights[INDEX_WEIGHT_POP] = weight
+            return self
+        }
+        
+        /**
+         * Set whether any color selected for this target is exclusive to this target only.
+         * Defaults to true.
+         *
+         * - Parameter exclusive: true if any the color is exclusive to this target, or false is the
+         *                      color can be selected for other targets.
+         */
+        public func setExclusive(_ exclusive: Bool) -> Builder {
+            target.isExclusive = exclusive
+            return self
+        }
+        
+        /**
+         * Builds and returns the resulting `Target`.
+         */
+        public func build() -> Target {
+            return target
+        }
+        
+        
     }
 }
