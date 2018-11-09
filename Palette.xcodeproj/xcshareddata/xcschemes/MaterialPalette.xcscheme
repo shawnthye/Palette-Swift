@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F428A2111BE3F8F700238624"
-               BuildableName = "MaterialPalette.framework"
-               BlueprintName = "MaterialPalette"
-               ReferencedContainer = "container:MaterialPalette.xcodeproj">
+               BuildableName = "Palette.framework"
+               BlueprintName = "Palette"
+               ReferencedContainer = "container:Palette.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F428A21C1BE3F8F700238624"
-               BuildableName = "MaterialPaletteTests.xctest"
-               BlueprintName = "MaterialPaletteTests"
-               ReferencedContainer = "container:MaterialPalette.xcodeproj">
+               BuildableName = "PaletteTests.xctest"
+               BlueprintName = "PaletteTests"
+               ReferencedContainer = "container:Palette.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -43,9 +43,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F428A2111BE3F8F700238624"
-            BuildableName = "MaterialPalette.framework"
-            BlueprintName = "MaterialPalette"
-            ReferencedContainer = "container:MaterialPalette.xcodeproj">
+            BuildableName = "Palette.framework"
+            BlueprintName = "Palette"
+            ReferencedContainer = "container:Palette.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -65,9 +65,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F428A2111BE3F8F700238624"
-            BuildableName = "MaterialPalette.framework"
-            BlueprintName = "MaterialPalette"
-            ReferencedContainer = "container:MaterialPalette.xcodeproj">
+            BuildableName = "Palette.framework"
+            BlueprintName = "Palette"
+            ReferencedContainer = "container:Palette.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -83,9 +83,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F428A2111BE3F8F700238624"
-            BuildableName = "MaterialPalette.framework"
-            BlueprintName = "MaterialPalette"
-            ReferencedContainer = "container:MaterialPalette.xcodeproj">
+            BuildableName = "Palette.framework"
+            BlueprintName = "Palette"
+            ReferencedContainer = "container:Palette.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

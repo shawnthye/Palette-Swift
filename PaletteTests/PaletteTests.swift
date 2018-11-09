@@ -8,11 +8,12 @@
 
 import UIKit
 import XCTest
-import MaterialPalette
+import Palette
 
-class MaterialPaletteTests: XCTestCase {
+class PaletteTests: XCTestCase {
     
     var palette: Palette?
+    
     override func setUp() {
         super.setUp()
         

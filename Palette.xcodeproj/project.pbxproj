@@ -3,14 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		73BF4E632192DA41005282C4 /* instagram_logo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 73BF4E622192DA41005282C4 /* instagram_logo.jpg */; };
-		F428A2181BE3F8F700238624 /* MaterialPalette.h in Headers */ = {isa = PBXBuildFile; fileRef = F428A2171BE3F8F700238624 /* MaterialPalette.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F428A21E1BE3F8F700238624 /* MaterialPalette.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F428A2121BE3F8F700238624 /* MaterialPalette.framework */; };
-		F428A2251BE3F8F700238624 /* MaterialPaletteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F428A2241BE3F8F700238624 /* MaterialPaletteTests.swift */; };
+		F428A2181BE3F8F700238624 /* Palette.h in Headers */ = {isa = PBXBuildFile; fileRef = F428A2171BE3F8F700238624 /* Palette.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F428A21E1BE3F8F700238624 /* Palette.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F428A2121BE3F8F700238624 /* Palette.framework */; };
+		F428A2251BE3F8F700238624 /* PaletteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F428A2241BE3F8F700238624 /* PaletteTests.swift */; };
 		F428A2301BE3FB0E00238624 /* ColorCutQuantizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F428A22F1BE3FB0E00238624 /* ColorCutQuantizer.swift */; };
 		F428A2321BE3FC4700238624 /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = F428A2311BE3FC4700238624 /* Palette.swift */; };
 		F428A2341BE405C200238624 /* ColorUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F428A2331BE405C200238624 /* ColorUtils.swift */; };
@@ -31,12 +31,12 @@
 
 /* Begin PBXFileReference section */
 		73BF4E622192DA41005282C4 /* instagram_logo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = instagram_logo.jpg; sourceTree = "<group>"; };
-		F428A2121BE3F8F700238624 /* MaterialPalette.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MaterialPalette.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F428A2121BE3F8F700238624 /* Palette.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Palette.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F428A2161BE3F8F700238624 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F428A2171BE3F8F700238624 /* MaterialPalette.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MaterialPalette.h; sourceTree = "<group>"; };
-		F428A21D1BE3F8F700238624 /* MaterialPaletteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MaterialPaletteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F428A2171BE3F8F700238624 /* Palette.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Palette.h; sourceTree = "<group>"; };
+		F428A21D1BE3F8F700238624 /* PaletteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PaletteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F428A2231BE3F8F700238624 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F428A2241BE3F8F700238624 /* MaterialPaletteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaterialPaletteTests.swift; sourceTree = "<group>"; };
+		F428A2241BE3F8F700238624 /* PaletteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteTests.swift; sourceTree = "<group>"; };
 		F428A22F1BE3FB0E00238624 /* ColorCutQuantizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorCutQuantizer.swift; sourceTree = "<group>"; };
 		F428A2311BE3FC4700238624 /* Palette.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Palette.swift; sourceTree = "<group>"; };
 		F428A2331BE405C200238624 /* ColorUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorUtils.swift; sourceTree = "<group>"; };
@@ -57,7 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F428A21E1BE3F8F700238624 /* MaterialPalette.framework in Frameworks */,
+				F428A21E1BE3F8F700238624 /* Palette.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,8 +75,8 @@
 		F428A2081BE3F8F700238624 = {
 			isa = PBXGroup;
 			children = (
-				F428A2141BE3F8F700238624 /* MaterialPalette */,
-				F428A2211BE3F8F700238624 /* MaterialPaletteTests */,
+				F428A2141BE3F8F700238624 /* Palette */,
+				F428A2211BE3F8F700238624 /* PaletteTests */,
 				F428A2131BE3F8F700238624 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -84,20 +84,20 @@
 		F428A2131BE3F8F700238624 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F428A2121BE3F8F700238624 /* MaterialPalette.framework */,
-				F428A21D1BE3F8F700238624 /* MaterialPaletteTests.xctest */,
+				F428A2121BE3F8F700238624 /* Palette.framework */,
+				F428A21D1BE3F8F700238624 /* PaletteTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		F428A2141BE3F8F700238624 /* MaterialPalette */ = {
+		F428A2141BE3F8F700238624 /* Palette */ = {
 			isa = PBXGroup;
 			children = (
-				F428A22E1BE3F99700238624 /* Palette */,
-				F428A2171BE3F8F700238624 /* MaterialPalette.h */,
+				F428A22E1BE3F99700238624 /* src */,
+				F428A2171BE3F8F700238624 /* Palette.h */,
 				F428A2151BE3F8F700238624 /* Supporting Files */,
 			);
-			path = MaterialPalette;
+			path = Palette;
 			sourceTree = "<group>";
 		};
 		F428A2151BE3F8F700238624 /* Supporting Files */ = {
@@ -108,14 +108,14 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		F428A2211BE3F8F700238624 /* MaterialPaletteTests */ = {
+		F428A2211BE3F8F700238624 /* PaletteTests */ = {
 			isa = PBXGroup;
 			children = (
 				73BF4E662192DE6A005282C4 /* Resources */,
-				F428A2241BE3F8F700238624 /* MaterialPaletteTests.swift */,
+				F428A2241BE3F8F700238624 /* PaletteTests.swift */,
 				F428A2221BE3F8F700238624 /* Supporting Files */,
 			);
-			path = MaterialPaletteTests;
+			path = PaletteTests;
 			sourceTree = "<group>";
 		};
 		F428A2221BE3F8F700238624 /* Supporting Files */ = {
@@ -126,7 +126,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		F428A22E1BE3F99700238624 /* Palette */ = {
+		F428A22E1BE3F99700238624 /* src */ = {
 			isa = PBXGroup;
 			children = (
 				F428A22F1BE3FB0E00238624 /* ColorCutQuantizer.swift */,
@@ -136,7 +136,7 @@
 				F428A2371BE5537300238624 /* SwiftPriorityQueue.swift */,
 				F428A23B1BE5623B00238624 /* DefaultGenerator.swift */,
 			);
-			name = Palette;
+			name = src;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -146,16 +146,16 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F428A2181BE3F8F700238624 /* MaterialPalette.h in Headers */,
+				F428A2181BE3F8F700238624 /* Palette.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		F428A2111BE3F8F700238624 /* MaterialPalette */ = {
+		F428A2111BE3F8F700238624 /* Palette */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F428A2281BE3F8F700238624 /* Build configuration list for PBXNativeTarget "MaterialPalette" */;
+			buildConfigurationList = F428A2281BE3F8F700238624 /* Build configuration list for PBXNativeTarget "Palette" */;
 			buildPhases = (
 				F428A20D1BE3F8F700238624 /* Sources */,
 				F428A20E1BE3F8F700238624 /* Frameworks */,
@@ -166,14 +166,14 @@
 			);
 			dependencies = (
 			);
-			name = MaterialPalette;
+			name = Palette;
 			productName = MaterialPalette;
-			productReference = F428A2121BE3F8F700238624 /* MaterialPalette.framework */;
+			productReference = F428A2121BE3F8F700238624 /* Palette.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		F428A21C1BE3F8F700238624 /* MaterialPaletteTests */ = {
+		F428A21C1BE3F8F700238624 /* PaletteTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F428A22B1BE3F8F700238624 /* Build configuration list for PBXNativeTarget "MaterialPaletteTests" */;
+			buildConfigurationList = F428A22B1BE3F8F700238624 /* Build configuration list for PBXNativeTarget "PaletteTests" */;
 			buildPhases = (
 				F428A2191BE3F8F700238624 /* Sources */,
 				F428A21A1BE3F8F700238624 /* Frameworks */,
@@ -184,9 +184,9 @@
 			dependencies = (
 				F428A2201BE3F8F700238624 /* PBXTargetDependency */,
 			);
-			name = MaterialPaletteTests;
+			name = PaletteTests;
 			productName = MaterialPaletteTests;
-			productReference = F428A21D1BE3F8F700238624 /* MaterialPaletteTests.xctest */;
+			productReference = F428A21D1BE3F8F700238624 /* PaletteTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -206,8 +206,8 @@
 					};
 				};
 			};
-			buildConfigurationList = F428A20C1BE3F8F700238624 /* Build configuration list for PBXProject "MaterialPalette" */;
-			compatibilityVersion = "Xcode 3.2";
+			buildConfigurationList = F428A20C1BE3F8F700238624 /* Build configuration list for PBXProject "Palette" */;
+			compatibilityVersion = "Xcode 10.0";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -218,8 +218,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				F428A2111BE3F8F700238624 /* MaterialPalette */,
-				F428A21C1BE3F8F700238624 /* MaterialPaletteTests */,
+				F428A2111BE3F8F700238624 /* Palette */,
+				F428A21C1BE3F8F700238624 /* PaletteTests */,
 			);
 		};
 /* End PBXProject section */
@@ -260,7 +260,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F428A2251BE3F8F700238624 /* MaterialPaletteTests.swift in Sources */,
+				F428A2251BE3F8F700238624 /* PaletteTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,7 +269,7 @@
 /* Begin PBXTargetDependency section */
 		F428A2201BE3F8F700238624 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = F428A2111BE3F8F700238624 /* MaterialPalette */;
+			target = F428A2111BE3F8F700238624 /* Palette */;
 			targetProxy = F428A21F1BE3F8F700238624 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -374,9 +374,13 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = MaterialPalette/Info.plist;
+				INFOPLIST_FILE = Palette/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -392,9 +396,13 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = MaterialPalette/Info.plist;
+				INFOPLIST_FILE = Palette/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.2;
@@ -412,8 +420,12 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = MaterialPaletteTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				INFOPLIST_FILE = PaletteTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -425,8 +437,12 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = MaterialPaletteTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				INFOPLIST_FILE = PaletteTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -434,7 +450,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		F428A20C1BE3F8F700238624 /* Build configuration list for PBXProject "MaterialPalette" */ = {
+		F428A20C1BE3F8F700238624 /* Build configuration list for PBXProject "Palette" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F428A2261BE3F8F700238624 /* Debug */,
@@ -443,7 +459,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F428A2281BE3F8F700238624 /* Build configuration list for PBXNativeTarget "MaterialPalette" */ = {
+		F428A2281BE3F8F700238624 /* Build configuration list for PBXNativeTarget "Palette" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F428A2291BE3F8F700238624 /* Debug */,
@@ -452,7 +468,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F428A22B1BE3F8F700238624 /* Build configuration list for PBXNativeTarget "MaterialPaletteTests" */ = {
+		F428A22B1BE3F8F700238624 /* Build configuration list for PBXNativeTarget "PaletteTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F428A22C1BE3F8F700238624 /* Debug */,
