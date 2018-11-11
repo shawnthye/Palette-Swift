@@ -44,6 +44,60 @@ public class Target {
     static let INDEX_WEIGHT_LUMA: Int = 1
     static let INDEX_WEIGHT_POP: Int = 2
     
+    /**
+     * A target which has the characteristics of a vibrant color which is light in luminance.
+     */
+    public static let LIGHT_VIBRANT: Target = {
+        setDefaultLightLightnessValues($0)
+        setDefaultVibrantSaturationValues($0)
+        return $0
+    }(Target())
+    
+    /**
+     * A target which has the characteristics of a vibrant color which is neither light or dark.
+     */
+    public static let VIBRANT: Target = {
+        setDefaultNormalLightnessValues($0)
+        setDefaultVibrantSaturationValues($0)
+        return $0
+    }(Target())
+    
+    /**
+     * A target which has the characteristics of a vibrant color which is dark in luminance.
+     */
+    public static let DARK_VIBRANT: Target = {
+        setDefaultDarkLightnessValues($0)
+        setDefaultVibrantSaturationValues($0)
+        return $0
+    }(Target())
+    
+    /**
+     * A target which has the characteristics of a muted color which is light in luminance.
+     */
+    public static let LIGHT_MUTED: Target = {
+        setDefaultLightLightnessValues($0)
+        setDefaultMutedSaturationValues($0)
+        return $0
+    }(Target())
+    
+    /**
+     * A target which has the characteristics of a muted color which is neither light or dark.
+     */
+    public static let MUTED: Target = {
+        setDefaultNormalLightnessValues($0)
+        setDefaultMutedSaturationValues($0)
+        return $0
+    }(Target())
+    
+    /**
+     * A target which has the characteristics of a muted color which is dark in luminance.
+     */
+    public static let DARK_MUTED: Target = {
+        setDefaultDarkLightnessValues($0)
+        setDefaultMutedSaturationValues($0)
+        return $0
+    }(Target())
+    
     private var saturationTargets = [Float](repeating: 0, count: 3)
     private var lightnessTargets = [Float](repeating: 0, count: 3)
     private var weights = [Float](repeating: 0, count: 3)
@@ -51,6 +105,7 @@ public class Target {
     private var isExclusive = true // default to true
     
     required init() {
+        
         Target.setTargetDefaultValues(&saturationTargets)
         Target.setTargetDefaultValues(&lightnessTargets)
     }
@@ -183,28 +238,28 @@ public class Target {
         }
     }
     
-    private static func setDefaultDarkLightnessValues(target: Target) {
+    private static func setDefaultDarkLightnessValues(_ target: Target) {
         target.lightnessTargets[INDEX_TARGET] = TARGET_DARK_LUMA
         target.lightnessTargets[INDEX_MAX] = MAX_DARK_LUMA
     }
     
-    private static func setDefaultNormalLightnessValues(target: Target) {
+    private static func setDefaultNormalLightnessValues(_ target: Target) {
         target.lightnessTargets[INDEX_MIN] = MIN_NORMAL_LUMA
         target.lightnessTargets[INDEX_TARGET] = TARGET_NORMAL_LUMA
         target.lightnessTargets[INDEX_MAX] = MAX_NORMAL_LUMA
     }
     
-    private static func setDefaultLightLightnessValues(target: Target) {
+    private static func setDefaultLightLightnessValues(_ target: Target) {
         target.lightnessTargets[INDEX_MIN] = MIN_LIGHT_LUMA
         target.lightnessTargets[INDEX_TARGET] = TARGET_LIGHT_LUMA
     }
     
-    private static func setDefaultVibrantSaturationValues(target: Target) {
+    private static func setDefaultVibrantSaturationValues(_ target: Target) {
         target.saturationTargets[INDEX_MIN] = MIN_VIBRANT_SATURATION
         target.saturationTargets[INDEX_TARGET] = TARGET_VIBRANT_SATURATION
     }
     
-    private static func setDefaultMutedSaturationValues(target: Target) {
+    private static func setDefaultMutedSaturationValues(_ target: Target) {
         target.saturationTargets[INDEX_TARGET] = TARGET_MUTED_SATURATION
         target.saturationTargets[INDEX_MAX] = MAX_MUTED_SATURATION
     }
@@ -361,7 +416,5 @@ public class Target {
         public func build() -> Target {
             return target
         }
-        
-        
     }
 }
