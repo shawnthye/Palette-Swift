@@ -12,7 +12,7 @@ import Palette
 
 class TargetBuilderTests: XCTestCase {
     override func setUp() {
-        let target: Target? = Target.Builder().build()
+//        let target: Target? = Target.Builder().build()
         
         
         

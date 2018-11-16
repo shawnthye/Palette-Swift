@@ -14,12 +14,18 @@ class PaletteTests: XCTestCase {
     
     var palette: Palette?
     
+    
+    
     override func setUp() {
         super.setUp()
         
-        for i in stride(from: 84, to: 83, by: 1){
-            print(i)
-        }
+        let a = CGRect(x: 0, y: 0, width: 100, height: 100)
+        let b = CGRect(x: 0, y: 1, width: 100, height: 100)
+        
+        let boolean = b.intersects(a)
+        
+        print("intersects: \(boolean): \(b.intersection(a))")
+        
         guard let logo = UIImage(named: "instagram_logo.jpg",
                                  in: Bundle(for: PaletteTests.self),
                                  compatibleWith: nil) else {
@@ -27,6 +33,8 @@ class PaletteTests: XCTestCase {
                                     return
         }
         palette = Palette.init(logo)
+        
+        
         // Put setup code here. This method is called before the invocation of each test method in the class.
         
     }

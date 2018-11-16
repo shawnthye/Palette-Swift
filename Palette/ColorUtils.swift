@@ -17,7 +17,6 @@ class ColorUtils {
     * Composite two potentially translucent colors over each other and returns the result.
     */
     static func compositeColors(_ foreground: Int, background: Int) -> Int {
-        
         let bgAlpha = getAlphaComponent(background)
         let fgAlpha = getAlphaComponent(foreground)
         let a = compositeAlpha(fgAlpha, backgroundAlpha: bgAlpha)

@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		735A0CE32195BB3600E34FC6 /* Target.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735A0CE22195BB3600E34FC6 /* Target.swift */; };
 		735A0CE72195BF1B00E34FC6 /* Target.BuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735A0CE62195BF1B00E34FC6 /* Target.BuilderTests.swift */; };
+		735A0CE9219892E300E34FC6 /* ColorCutQuantizer27.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735A0CE8219892E300E34FC6 /* ColorCutQuantizer27.swift */; };
+		735A0CEB2198A24F00E34FC6 /* Palette27.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735A0CEA2198A24F00E34FC6 /* Palette27.swift */; };
+		735A0CED2199E8E800E34FC6 /* Android.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735A0CEC2199E8E800E34FC6 /* Android.swift */; };
+		735A0CEF2199E9A700E34FC6 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735A0CEE2199E9A700E34FC6 /* Color.swift */; };
+		735A0CF1219B25C500E34FC6 /* ColorUtils27.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735A0CF0219B25C500E34FC6 /* ColorUtils27.swift */; };
+		735A0CF3219EDF6700E34FC6 /* Rect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735A0CF2219EDF6700E34FC6 /* Rect.swift */; };
 		73BF4E632192DA41005282C4 /* instagram_logo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 73BF4E622192DA41005282C4 /* instagram_logo.jpg */; };
 		F428A2181BE3F8F700238624 /* Palette.h in Headers */ = {isa = PBXBuildFile; fileRef = F428A2171BE3F8F700238624 /* Palette.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F428A21E1BE3F8F700238624 /* Palette.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F428A2121BE3F8F700238624 /* Palette.framework */; };
@@ -34,6 +40,12 @@
 /* Begin PBXFileReference section */
 		735A0CE22195BB3600E34FC6 /* Target.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Target.swift; sourceTree = "<group>"; };
 		735A0CE62195BF1B00E34FC6 /* Target.BuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Target.BuilderTests.swift; sourceTree = "<group>"; };
+		735A0CE8219892E300E34FC6 /* ColorCutQuantizer27.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCutQuantizer27.swift; sourceTree = "<group>"; };
+		735A0CEA2198A24F00E34FC6 /* Palette27.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palette27.swift; sourceTree = "<group>"; };
+		735A0CEC2199E8E800E34FC6 /* Android.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Android.swift; sourceTree = "<group>"; };
+		735A0CEE2199E9A700E34FC6 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		735A0CF0219B25C500E34FC6 /* ColorUtils27.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorUtils27.swift; sourceTree = "<group>"; };
+		735A0CF2219EDF6700E34FC6 /* Rect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rect.swift; sourceTree = "<group>"; };
 		73BF4E622192DA41005282C4 /* instagram_logo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = instagram_logo.jpg; sourceTree = "<group>"; };
 		F428A2121BE3F8F700238624 /* Palette.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Palette.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F428A2161BE3F8F700238624 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -140,7 +152,13 @@
 				F428A2351BE459FC00238624 /* UIImageExtension.swift */,
 				F428A2371BE5537300238624 /* SwiftPriorityQueue.swift */,
 				F428A23B1BE5623B00238624 /* DefaultGenerator.swift */,
+				735A0CEC2199E8E800E34FC6 /* Android.swift */,
+				735A0CEE2199E9A700E34FC6 /* Color.swift */,
+				735A0CE8219892E300E34FC6 /* ColorCutQuantizer27.swift */,
+				735A0CEA2198A24F00E34FC6 /* Palette27.swift */,
 				735A0CE22195BB3600E34FC6 /* Target.swift */,
+				735A0CF0219B25C500E34FC6 /* ColorUtils27.swift */,
+				735A0CF2219EDF6700E34FC6 /* Rect.swift */,
 			);
 			name = src;
 			sourceTree = "<group>";
@@ -255,11 +273,17 @@
 			files = (
 				F428A2341BE405C200238624 /* ColorUtils.swift in Sources */,
 				F428A2301BE3FB0E00238624 /* ColorCutQuantizer.swift in Sources */,
+				735A0CF1219B25C500E34FC6 /* ColorUtils27.swift in Sources */,
+				735A0CEF2199E9A700E34FC6 /* Color.swift in Sources */,
 				735A0CE32195BB3600E34FC6 /* Target.swift in Sources */,
+				735A0CE9219892E300E34FC6 /* ColorCutQuantizer27.swift in Sources */,
 				F428A2321BE3FC4700238624 /* Palette.swift in Sources */,
 				F428A2361BE459FC00238624 /* UIImageExtension.swift in Sources */,
+				735A0CEB2198A24F00E34FC6 /* Palette27.swift in Sources */,
 				F428A2381BE5537300238624 /* SwiftPriorityQueue.swift in Sources */,
 				F428A23C1BE5623B00238624 /* DefaultGenerator.swift in Sources */,
+				735A0CF3219EDF6700E34FC6 /* Rect.swift in Sources */,
+				735A0CED2199E8E800E34FC6 /* Android.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -422,10 +446,7 @@
 		F428A22C1BE3F8F700238624 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -443,10 +464,7 @@
 		F428A22D1BE3F8F700238624 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = PaletteTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

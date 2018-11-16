@@ -15,7 +15,7 @@ import Foundation
  * <p>To use the target, use the {@link Palette.Builder#addTarget(Target)} API when building a
  * Palette.</p>
  */
-public class Target {
+public final class Target {
     private static let TARGET_DARK_LUMA: Float = 0.26
     private static let MAX_DARK_LUMA: Float = 0.45
     
@@ -98,9 +98,9 @@ public class Target {
         return $0
     }(Target())
     
-    private var saturationTargets = [Float](repeating: 0, count: 3)
-    private var lightnessTargets = [Float](repeating: 0, count: 3)
-    private var weights = [Float](repeating: 0, count: 3)
+    private final var saturationTargets = [Float](repeating: 0, count: 3)
+    private final var lightnessTargets = [Float](repeating: 0, count: 3)
+    private final var weights = [Float](repeating: 0, count: 3)
     
     private var isExclusive = true // default to true
     
@@ -263,11 +263,14 @@ public class Target {
         target.saturationTargets[INDEX_TARGET] = TARGET_MUTED_SATURATION
         target.saturationTargets[INDEX_MAX] = MAX_MUTED_SATURATION
     }
+}
+
+extension Target {
     
     /**
      * Builder class for generating custom `Target` instances.
      */
-    public class Builder {
+    public final class Builder {
         
         private let target: Target
         
@@ -416,5 +419,23 @@ public class Target {
         public func build() -> Target {
             return target
         }
+    }
+}
+
+extension Target: Equatable {
+    
+    public static func ==(lhs: Target, rhs: Target) -> Bool {
+        let lh = unsafeBitCast(lhs, to: UnsafePointer<Target>.self)
+        let rh = unsafeBitCast(rhs, to: UnsafePointer<Target>.self)
+        return lh == rh
+    }
+}
+
+extension Target: Hashable {
+    
+    public var hashValue: Int {
+        let ptr = unsafeBitCast(self, to: UnsafePointer<Target>.self)
+        let hashValue = ptr.hashValue
+        return hashValue
     }
 }
