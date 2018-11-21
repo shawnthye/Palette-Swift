@@ -12,8 +12,8 @@ import Palette
 
 class PaletteTests: XCTestCase {
     
-    var palette: Palette?
-    
+//    var palette: Palette27?
+    var logo: UIImage?
     
     
     override func setUp() {
@@ -26,14 +26,12 @@ class PaletteTests: XCTestCase {
         
         print("intersects: \(boolean): \(b.intersection(a))")
         
-        guard let logo = UIImage(named: "instagram_logo.jpg",
+        logo = UIImage(named: "instagram_logo.jpg",
                                  in: Bundle(for: PaletteTests.self),
-                                 compatibleWith: nil) else {
-                                    XCTFail("instragram logo not found")
-                                    return
-        }
-        palette = Palette.init(logo)
+                                 compatibleWith: nil)
         
+        
+//        palette = Palette.init(logo!)
         
         // Put setup code here. This method is called before the invocation of each test method in the class.
         
@@ -45,12 +43,27 @@ class PaletteTests: XCTestCase {
     }
     
     func testNotNil() {
-        guard let swatches = palette?.swatches else {
-            XCTFail("failed to generate palette")
+//        guard let swatches = palette?.swatches else {
+//            XCTFail("failed to generate palette")
+//            return
+//        }
+//        
+//        XCTAssert(swatches.count > 0, "no swatch avaible")
+    }
+    
+    func testPalette27(){
+        guard let logo = logo?.cgImage else {
             return
         }
         
-        XCTAssert(swatches.count > 0, "no swatch avaible")
+        let palette = Palette27.Builder(bitmap: logo)
+//            .resizeBitmapArea(area: 1000)
+            .generate()
+        let swatches = palette.swatches
+        print("Total Color: \(swatches.count)")
+        for swatch in swatches {
+            print("Color: \(ColorInt.toHexString(swatch.rgb))")
+        }
     }
     
     //    func testPerformanceExample() {

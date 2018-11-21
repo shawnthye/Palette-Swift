@@ -32,7 +32,7 @@ final class ColorCutQuantizer27 {
     
     private var mColors: [Int] = []
     private var mHistogram: [Int]
-    private var mQuantizedColors: [Palette27.Swatch]?
+    private(set) var quantizedColors: [Palette27.Swatch] = []
     private var mFilters: [Palette27.Filter]?
     
     private var mTempHsl: [Float] = [Float](repeating: 0, count: 3)
@@ -85,7 +85,7 @@ final class ColorCutQuantizer27 {
             quantizedColors = quantizePixels(maxColors); //Quantized colors computed
         }
         
-        mQuantizedColors = quantizedColors
+        self.quantizedColors = quantizedColors
     }
     
     private func quantizePixels(_ maxColors: Int) -> [Palette27.Swatch] {
@@ -178,7 +178,7 @@ final class ColorCutQuantizer27 {
     
     private func shouldIgnoreColor(color565: Int) -> Bool {
         let rgb = ColorCutQuantizer27.approximateToRgb888(color565);
-        //TODO: ColorUtils.colorToHSL(rgb, mTempHsl);
+        ColorUtils27.colorToHSL(color: rgb, outHsl: &mTempHsl);
         
         return shouldIgnoreColor(rgb, mTempHsl);
     }
@@ -427,7 +427,7 @@ extension ColorCutQuantizer27 {
             
             // Now sort... Arrays.sort uses a exclusive toIndex so we need to add 1
             // Arrays.sort(colors, mLowerIndex, mUpperIndex + 1);
-            colors[mLowerIndex...mUpperIndex + 1].sort()
+            colors[mLowerIndex...mUpperIndex].sort()
             
             // Now revert all of the colors so that they are packed as RGB again
             modifySignificantOctet(&colors, longestDimension, mLowerIndex, mUpperIndex)
@@ -459,18 +459,18 @@ extension ColorCutQuantizer27 {
             var totalPopulation = 0
             
             for i in mLowerIndex...mUpperIndex {
-                let color = colors[i];
-                let colorPopulation = hist[color];
+                let color = colors[i]
+                let colorPopulation = hist[color]
                 
-                totalPopulation += colorPopulation;
-                redSum += colorPopulation * quantizedRed(color);
-                greenSum += colorPopulation * quantizedGreen(color);
-                blueSum += colorPopulation * quantizedBlue(color);
+                totalPopulation += colorPopulation
+                redSum += colorPopulation * quantizedRed(color)
+                greenSum += colorPopulation * quantizedGreen(color)
+                blueSum += colorPopulation * quantizedBlue(color)
             }
             
-            let redMean = Int(round(Float(redSum) / Float(totalPopulation)))
-            let greenMean = Int(round(Float(greenSum) / Float(totalPopulation)))
-            let blueMean = Int(round(Float(blueSum) / Float(totalPopulation)))
+            let redMean = redSum == 0 ? 0 : Int(round(Float(redSum) / Float(totalPopulation)))
+            let greenMean = greenSum == 0 ? 0 : Int(round(Float(greenSum) / Float(totalPopulation)))
+            let blueMean = blueSum == 0 ? 0 : Int(round(Float(blueSum) / Float(totalPopulation)))
             
             let color = approximateToRgb888(r: redMean, g: greenMean, b: blueMean)
             return Palette27.Swatch(color: color, population: totalPopulation)

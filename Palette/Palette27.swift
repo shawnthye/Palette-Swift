@@ -154,7 +154,8 @@ extension Palette27 {
          */
         public init(swatches: [Swatch]) {
             if swatches.isEmpty {
-                //throw new IllegalArgumentException("List of Swatches is not valid");
+                assertionFailure("List of Swatches is not valid")
+                // throw new IllegalArgumentException("List of Swatches is not valid");
             }
             mFilters.append(Palette27.defaultFilter)
             mSwatches = swatches
@@ -227,18 +228,229 @@ extension Palette27 {
                 return self
             }
             
-            if mRegion == nil {
-                // Set the Rect to be initially the whole Bitmap
-                mRegion = CGRect(x: 0, y: 0, width: bitmap.width, height: bitmap.height)
-            }
-            
-            
+            // Set the Rect to be initially the whole Bitmap if null
+            let region = mRegion ?? CGRect(x: 0, y: 0, width: bitmap.width, height: bitmap.height)
             // Now just get the intersection with the region
-            if mRegion!.intersects(CGRect(x: 0, y: 0, width: right - left, height: bottom - top)) {
-//                throw new IllegalArgumentException("The given region must intersect with "
-//                    + "the Bitmap's dimensions.");
+            if !region.intersects(Rect(left: left, top: top, right: right, bottom: bottom)) {
+                assertionFailure("The given region must intersect with "
+                    + "the Bitmap's dimensions.")
+                // throw new IllegalArgumentException("The given region must intersect with "
+                //     + "the Bitmap's dimensions.");
             }
             return self
+        }
+        
+        /**
+         * Clear any previously region set via {@link #setRegion(int, int, int, int)}.
+         */
+        public func clearRegion() -> Builder {
+            mRegion = nil
+            return self
+        }
+        
+        /**
+         * Add a target profile to be generated in the palette.
+         *
+         * <p>You can retrieve the result via {@link Palette#getSwatchForTarget(Target)}.</p>
+         */
+        public func addTarget(target: Target) -> Builder {
+            if (!mTargets.contains(target)) {
+                mTargets.append(target);
+            }
+            return self
+        }
+        
+        /**
+         * Clear all added targets. This includes any default targets added automatically by
+         * {@link Palette}.
+         */
+        public func clearTargets() -> Builder {
+            mTargets.removeAll()
+            return self
+        }
+        
+        /**
+         * Generate and return the {@link Palette} synchronously.
+         */
+        public func generate() -> Palette27 {
+            
+            let swatches: [Swatch]
+            
+            if let originalBitmap = mBitmap {
+                // We have a Bitmap so we need to use quantization to reduce the number of colors
+                
+                // First we'll scale down the bitmap if needed
+                let bitmap = scaleBitmapDown(originalBitmap)
+                
+                // LOG: Processed Bitmap
+                
+                if var region = mRegion, bitmap != originalBitmap {
+                    // If we have a scaled bitmap and a selected region, we need to scale down the
+                    // region to match the new scale
+                    let scale = Double(bitmap.width) / Double(originalBitmap.width)
+                    region.left = Int(floor(Double(region.left) * scale))
+                    region.top = Int(floor(Double(region.top) * scale))
+                    region.right = min(Int(ceil(Double(region.right) * scale)), bitmap.width);
+                    region.bottom = min(Int(ceil(Double(region.bottom) * scale)), bitmap.height)
+                }
+                
+                
+                // Now generate a quantizer from the Bitmap
+                let quantizer = ColorCutQuantizer27(
+                    pixels: getPixelsFromBitmap(bitmap),
+                    final: mMaxColors,
+                    filters: mFilters.isEmpty ? nil : mFilters)
+                
+                // If created a new bitmap, recycle it
+                if (bitmap != originalBitmap) {
+                    // TODO: bitmap.recycle()
+                }
+                
+                swatches = quantizer.quantizedColors
+                
+                // LOG: Color quantization completed
+            } else {
+                // Else we're using the provided swatches
+                swatches = mSwatches ?? []
+            }
+            
+            // Now create a Palette instance
+            let p = Palette27(swatches: swatches, targets: mTargets)
+            // And make it generate itself
+//             p.generate()
+            
+            // LOG: Created Palette
+            
+            return p
+        }
+        
+        private func getPixelsFromBitmap(_ bitmap: CGImage) -> [Int] {
+            //TODO:
+            //        let bitmapWidth = bitmap.width
+            //        let bitmapHeight = bitmap.height
+            //        int[] pixels = new int[bitmapWidth * bitmapHeight];
+            //        bitmap.getPixels(pixels, 0, bitmapWidth, 0, 0, bitmapWidth, bitmapHeight);
+            //
+            //        if (mRegion == null) {
+            //        // If we don't have a region, return all of the pixels
+            //        return pixels;
+            //        } else {
+            //        // If we do have a region, lets create a subset array containing only the region's
+            //        // pixels
+            //        final int regionWidth = mRegion.width();
+            //        final int regionHeight = mRegion.height();
+            //        // pixels contains all of the pixels, so we need to iterate through each row and
+            //        // copy the regions pixels into a new smaller array
+            //        final int[] subsetPixels = new int[regionWidth * regionHeight];
+            //        for (int row = 0; row < regionHeight; row++) {
+            //        System.arraycopy(pixels, ((row + mRegion.top) * bitmapWidth) + mRegion.left,
+            //        subsetPixels, row * regionWidth, regionWidth);
+            //        }
+            //        return subsetPixels;
+            //        }
+            let inImage:CGImage =  bitmap
+            
+            //Get image width, height
+            let pixelsWide = inImage.width
+            let pixelsHigh = inImage.height
+            
+            // Declare the number of bytes per row. Each pixel in the bitmap in this
+            // example is represented by 4 bytes; 8 bits each of red, green, blue, and
+            // alpha.
+            let bitmapBytesPerRow = Int(pixelsWide) * 4
+            
+            // Use the generic RGB color space.
+            let colorSpace = CGColorSpaceCreateDeviceRGB()
+            
+            // Allocate memory for image data. This is the destination in memory
+            // where any drawing to the bitmap context will be rendered.
+            let bitmapData = UnsafeMutablePointer<UInt8>.allocate(capacity: bitmapBytesPerRow * pixelsHigh)
+            let bitmapInfo = CGImageAlphaInfo.premultipliedFirst.rawValue
+            
+            // Create the bitmap context. We want pre-multiplied ARGB, 8-bits
+            // per component. Regardless of what the source image format is
+            // (CMYK, Grayscale, and so on) it will be converted over to the format
+            // specified here by CGBitmapContextCreate.
+            let context = CGContext(data: bitmapData, width: pixelsWide, height: pixelsHigh, bitsPerComponent: 8, bytesPerRow: bitmapBytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo)
+            
+            let rect = CGRect(x:0, y:0, width:Int(pixelsWide), height:Int(pixelsHigh))
+            
+            
+            //Clear the context
+            context?.clear(rect)
+            
+            // Draw the image to the bitmap context. Once we draw, the memory
+            // allocated for the context for rendering will then contain the
+            // raw image data in the specified color space.
+            context?.draw(inImage, in: rect)
+            
+            // Now we can get a pointer to the image data associated with the bitmap
+            // context.
+            
+            
+            let data = context?.data?.assumingMemoryBound(to: UInt8.self)
+            let dataType = UnsafeMutablePointer<UInt8>(data)!
+            var pixels = [Int]()
+            for x in 0..<pixelsWide {
+                for y in 0..<pixelsHigh {
+                    let offset = 4*((Int(pixelsWide) * Int(y)) + Int(x))
+                    let alpha = dataType[offset]
+                    let red = dataType[offset+1]
+                    let green = dataType[offset+2]
+                    let blue = dataType[offset+3]
+                    let red32: UInt32   = (UInt32(red)   * (31*2) + 255) / (255*2)
+                    let green32: UInt32 = (UInt32(green) * 63 + 127) / 255
+                    let blue32: UInt32  = (UInt32(blue)  * 31 + 127) / 255
+                    let RGB565pixel: UInt16 = UInt16((red32 << 11) | (green32 <<  5) | blue32)
+                    
+//                    pixels.append(Int(RGB565pixel))
+                    pixels.append((Int(red) << 16) | (Int(green) << 8) | Int(blue))
+                }
+            }
+            
+            return pixels
+        }
+        
+        /**
+         * Scale the bitmap down as needed.
+         */
+        private func scaleBitmapDown(_ bitmap: CGImage) -> CGImage {
+            var scaleRatio: Double = -1
+            
+            if (mResizeArea > 0) {
+                let bitmapArea = bitmap.width * bitmap.height
+                if (bitmapArea > mResizeArea) {
+                    scaleRatio = sqrt(Double(mResizeArea) / Double(bitmapArea))
+                }
+            } else if (mResizeMaxDimension > 0) {
+                let maxDimension = max(bitmap.width, bitmap.height);
+                if (maxDimension > mResizeMaxDimension) {
+                    scaleRatio = Double(mResizeMaxDimension) / Double(maxDimension)
+                }
+            }
+            
+            if (scaleRatio <= 0) {
+                // Scaling has been disabled or not needed so just return the Bitmap
+                return bitmap
+            }
+            
+            let image = UIImage(cgImage: bitmap)
+            let size = image.size
+                .applying(CGAffineTransform(scaleX: CGFloat(scaleRatio),
+                                            y: CGFloat(scaleRatio)))
+            let hasAlpha = false
+            let scale: CGFloat = 0.0 // Automatically use scale factor of main screen
+            
+            UIGraphicsBeginImageContextWithOptions(size, !hasAlpha, scale)
+            image.draw(in: CGRect(origin: .zero, size: size))
+            
+            guard let context = UIGraphicsGetImageFromCurrentImageContext(), let scaledImage = context.cgImage  else {
+                UIGraphicsEndImageContext()
+                return bitmap
+            }
+            
+            UIGraphicsEndImageContext()
+            return scaledImage
         }
     }
 }

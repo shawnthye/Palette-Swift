@@ -183,6 +183,21 @@ final class ColorUtils27 {
     }
     
     /**
+     * Convert the ARGB color to its HSL (hue-saturation-lightness) components.
+     * <ul>
+     * <li>outHsl[0] is Hue [0 .. 360)</li>
+     * <li>outHsl[1] is Saturation [0...1]</li>
+     * <li>outHsl[2] is Lightness [0...1]</li>
+     * </ul>
+     *
+     * @param color  the ARGB color to convert. The alpha component is ignored
+     * @param outHsl 3-element array which holds the resulting HSL components
+     */
+    public static func colorToHSL(color: ColorInt, outHsl: inout [Float]) {
+        RGBToHSL(r: Color.red(color), g: Color.green(color), b: Color.blue(color), outHsl: &outHsl);
+    }
+    
+    /**
      * Convert HSL (hue-saturation-lightness) components to a RGB color.
      * <ul>
      * <li>hsl[0] is Hue [0 .. 360)</li>
