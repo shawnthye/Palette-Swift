@@ -38,7 +38,7 @@ extension Bitmap {
         return context
     }
     
-    public func getPixels(pixels: inout [ColorInt], offset: Int, stride: Int, x: Int, y: Int, width: Int, height: Int) {
+     func getPixels(pixels: inout [ColorInt], offset: Int, stride: Int, x: Int, y: Int, width: Int, height: Int) {
         guard let context = self.createARGBBitmapContext() else {
             return
         }
@@ -75,31 +75,6 @@ extension Bitmap {
         }
         
         pixels = [Int](pixels[x * y..<width * height])
-        
-        //        for x in 0..<pixelsWide {
-        //            for y in 0..<pixelsHigh {
-        //                let offset = 4 * ((Int(pixelsWide) * Int(y)) + Int(x))
-        //                let alpha = dataType[offset]
-        //                let red = dataType[offset + 1]
-        //                let green = dataType[offset + 2]
-        //                let blue = dataType[offset + 3]
-        //                let argb = Color.argb(alpha: Int(alpha),
-        //                                            red: Int(red),
-        //                                            green: Int(green),
-        //                                            blue: Int(blue))
-        //                if alpha == 0 {
-        //                    print("nonono \(ColorInt.toHexString(argb))")
-        //                }
-        //                pixels.append(argb)
-        //            }
-        //        }
-        
-//        let colorSpace = CGColorSpaceCreateDeviceRGB()
-//        let bitmapInfo = CGImageAlphaInfo.premultipliedFirst.rawValue
-//
-//        let finalcontext = CGContext(data: data, width: pixelsWide, height: pixelsHigh, bitsPerComponent: 8,  bytesPerRow: bitmapBytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo)
-//
-//        let imageRef = finalcontext!.makeImage()
     }
     
     func resize(scale: Double) -> Bitmap {

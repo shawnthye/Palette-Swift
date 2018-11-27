@@ -371,7 +371,7 @@ extension ColorCutQuantizer27 {
          */
         final func splitBox() -> Vbox {
             if (!canSplit()) {
-                //TODO: throw new IllegalStateException("Can not split a box with only 1 color");
+                // throw new IllegalStateException("Can not split a box with only 1 color");
                 assertionFailure("Can not split a box with only 1 color")
             }
             

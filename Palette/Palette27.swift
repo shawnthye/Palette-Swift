@@ -301,11 +301,6 @@ extension Palette27 {
                     final: mMaxColors,
                     filters: mFilters.isEmpty ? nil : mFilters)
                 
-                // If created a new bitmap, recycle it
-                if (bitmap != originalBitmap) {
-                    // TODO: bitmap.recycle()
-                }
-                
                 swatches = quantizer.quantizedColors
                 
                 // LOG: Color quantization completed
@@ -379,25 +374,7 @@ extension Palette27 {
                 return bitmap
             }
             
-            let image = UIImage(cgImage: bitmap)
-            let size = image.size
-                .applying(CGAffineTransform(scaleX: CGFloat(scaleRatio),
-                                            y: CGFloat(scaleRatio)))
-            let hasAlpha = false
-            let scale: CGFloat = 0.0 // Automatically use scale factor of main screen
-            
-            UIGraphicsBeginImageContext(size)
-            UIGraphicsBeginImageContextWithOptions(size, false, scale)
-//            UIGraphicsBeginImageContextWithOptions(size, !hasAlpha, scale)
-            image.draw(in: CGRect(origin: .zero, size: size))
-            
-            guard let context = UIGraphicsGetImageFromCurrentImageContext(), let scaledImage = context.cgImage  else {
-                UIGraphicsEndImageContext()
-                return bitmap
-            }
-            
-            UIGraphicsEndImageContext()
-            return scaledImage
+            return bitmap.resize(scale: scaleRatio)
         }
     }
 }

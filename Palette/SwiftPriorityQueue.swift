@@ -29,7 +29,7 @@
 /// can be accomplished in O(lg n) time. It can be specified whether the objects should
 /// be popped in ascending or descending order (Max Priority Queue or Min Priority Queue)
 /// at the time of initialization.
-public struct PriorityQueue<T: Comparable> {
+public struct SwiftPriorityQueue<T: Comparable> {
     
     private var heap = [T]()
     private let ordered: (T, T) -> Bool
@@ -112,21 +112,21 @@ public struct PriorityQueue<T: Comparable> {
 }
 
 // MARK: - GeneratorType
-extension PriorityQueue: IteratorProtocol {
+extension SwiftPriorityQueue: IteratorProtocol {
     
     public typealias Element = T
     mutating public func next() -> Element? { return pop() }
 }
 
 // MARK: - SequenceType
-extension PriorityQueue: Sequence {
+extension SwiftPriorityQueue: Sequence {
     
-    public typealias Generator = PriorityQueue
+    public typealias Generator = SwiftPriorityQueue
     public func generate() -> Generator { return self }
 }
 
 // MARK: - CollectionType
-extension PriorityQueue: Collection {
+extension SwiftPriorityQueue: Collection {
     
     public typealias Index = Int
     
@@ -138,7 +138,7 @@ extension PriorityQueue: Collection {
 }
 
 // MARK: - Printable, DebugPrintable
-extension PriorityQueue: CustomStringConvertible, CustomDebugStringConvertible {
+extension SwiftPriorityQueue: CustomStringConvertible, CustomDebugStringConvertible {
     
     public var description: String { return heap.description }
     public var debugDescription: String { return heap.debugDescription }

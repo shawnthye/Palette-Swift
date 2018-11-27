@@ -93,7 +93,7 @@ final class ColorUtils27 {
      */
     public static func calculateMinimumAlpha(foreground: ColorInt, background: ColorInt, minContrastRatio: Float) -> Int {
         if (Color.alpha(background) != 255) {
-            //TODO: throw new IllegalArgumentException("background can not be translucent: #" + Integer.toHexString(background));
+            // throw new IllegalArgumentException("background can not be translucent: #" + Integer.toHexString(background));
             assertionFailure("background can not be translucent: #\(ColorInt.toHexString(background))")
             
         }
@@ -270,7 +270,7 @@ final class ColorUtils27 {
      */
     public static func setAlphaComponent(color: ColorInt, alpha: Int) -> ColorInt {
         if (alpha < 0 || alpha > 255) {
-            //TODO: throw new IllegalArgumentException("alpha must be between 0 and 255.");
+            // throw new IllegalArgumentException("alpha must be between 0 and 255.");
             assertionFailure("alpha must be between 0 and 255.")
         }
         return (color & 0x00ffffff) | (alpha << 24);
@@ -317,7 +317,7 @@ final class ColorUtils27 {
      */
     public static func RGBToXYZ(r: Int, g: Int, b: Int, outXyz: inout [Double]) {
         if (outXyz.count != 3) {
-            // TODO: throw new IllegalArgumentException("outXyz must have a length of 3.");
+            // throw new IllegalArgumentException("outXyz must have a length of 3.");
             assertionFailure("outXyz must have a length of 3.")
         }
         

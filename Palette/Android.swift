@@ -10,5 +10,6 @@ public typealias Color = UIColor
 
 public typealias ColorInt = Int // ARGB = (A & 0xff) << 24 | (R & 0xff) << 16 | (G & 0xff) << 16 | (B & 0xff)
 public typealias Bitmap = CGImage
-
 public typealias Rect = CGRect
+
+public typealias PriorityQueue = SwiftPriorityQueue
