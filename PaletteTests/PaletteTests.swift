@@ -52,12 +52,16 @@ class PaletteTests: XCTestCase {
     }
     
     func testPalette27(){
+        var a = [1, 1, 1]
+        a[0] += 1
+        
         guard let logo = logo?.cgImage else {
             return
         }
         
         let palette = Palette27.Builder(bitmap: logo)
-//            .resizeBitmapArea(area: 300)
+//            .resizeBitmapArea(area: 1000)
+//            .clearFilters()
             .generate()
         let swatches = palette.swatches
         print("Total Color: \(swatches.count)")

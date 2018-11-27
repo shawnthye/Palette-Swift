@@ -374,7 +374,7 @@ extension Palette27 {
                 return bitmap
             }
             
-            return bitmap.resize(scale: scaleRatio)
+            return bitmap.resize(scaleRatio)
         }
     }
 }
@@ -541,21 +541,21 @@ extension Palette27 {
          * @return true if the color represents a color which is close to black.
          */
         private func isBlack(_ hslColor: [Float]) -> Bool {
-            return hslColor[2] <= Palette27.DefaultFilter.blackMaxLightness;
+            return hslColor[2] <= DefaultFilter.blackMaxLightness;
         }
         
         /**
          * @return true if the color represents a color which is close to white.
          */
         private func isWhite(_ hslColor: [Float]) -> Bool {
-            return hslColor[2] >= Palette27.DefaultFilter.whiteMinLightness;
+            return hslColor[2] >= DefaultFilter.whiteMinLightness;
         }
         
         /**
          * @return true if the color lies close to the red side of the I line.
          */
         private func isNearRedILine(_ hslColor: [Float]) -> Bool {
-            return hslColor[0] >= 10 && hslColor[0] <= 37 && hslColor[1] <= 0.82;
+            return hslColor[0] >= 10.0 && hslColor[0] <= 37.0 && hslColor[1] <= 0.82;
         }
     }
 }

@@ -162,7 +162,7 @@ final class ColorUtils27 {
             s = 0
         } else {
             if (max == rf) {
-                h = ((gf - bf) / deltaMaxMin).truncatingRemainder(dividingBy: 6);
+                h = ((gf - bf) / deltaMaxMin).truncatingRemainder(dividingBy: 6.0);
             } else if (max == gf) {
                 h = ((bf - rf) / deltaMaxMin) + 2;
             } else {
@@ -172,14 +172,14 @@ final class ColorUtils27 {
             s = deltaMaxMin / (1 - abs(2 * l - 1));
         }
         
-        h = (h * 60).truncatingRemainder(dividingBy: 360)
+        h = (h * 60).truncatingRemainder(dividingBy: 360.0)
         if (h < 0) {
             h += 360;
         }
         
-        outHsl[0] = constrain(h, 0, 360);
-        outHsl[1] = constrain(s, 0, 1);
-        outHsl[2] = constrain(l, 0, 1);
+        outHsl[0] = constrain(h, 0.0, 360.0)
+        outHsl[1] = constrain(s, 0.0, 1.0)
+        outHsl[2] = constrain(l, 0.0, 1.0)
     }
     
     /**

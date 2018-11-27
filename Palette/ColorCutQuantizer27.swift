@@ -55,9 +55,10 @@ final class ColorCutQuantizer27 {
         // Now let's count the number of distinct colors
         var distinctColorCount = 0
         for (i, color) in hist.enumerated() {
+            //TODO: should happen, pixel there problem return a 000000 colors
             if color > 0 && shouldIgnoreColor(color565: color) {
                 // If we should ignore the color, set the population to 0
-                hist[i] = 0;
+                hist[i] = 0
             }
             if color > 0 {
                 // If the color has population, increase the distinct color count
@@ -468,9 +469,13 @@ extension ColorCutQuantizer27 {
                 blueSum += colorPopulation * quantizedBlue(color)
             }
             
-            let redMean = redSum == 0 ? 0 : Int(round(Float(redSum) / Float(totalPopulation)))
-            let greenMean = greenSum == 0 ? 0 : Int(round(Float(greenSum) / Float(totalPopulation)))
-            let blueMean = blueSum == 0 ? 0 : Int(round(Float(blueSum) / Float(totalPopulation)))
+//            let redMean = redSum == 0 ? 0 : Int(round(Float(redSum) / Float(totalPopulation)))
+//            let greenMean = greenSum == 0 ? 0 : Int(round(Float(greenSum) / Float(totalPopulation)))
+//            let blueMean = blueSum == 0 ? 0 : Int(round(Float(blueSum) / Float(totalPopulation)))
+            
+            let redMean = Int(round(Float(redSum) / Float(totalPopulation)))
+            let greenMean = Int(round(Float(greenSum) / Float(totalPopulation)))
+            let blueMean = Int(round(Float(blueSum) / Float(totalPopulation)))
             
             let color = approximateToRgb888(r: redMean, g: greenMean, b: blueMean)
             return Palette27.Swatch(color: color, population: totalPopulation)

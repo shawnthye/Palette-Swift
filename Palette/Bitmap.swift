@@ -38,7 +38,7 @@ extension Bitmap {
         return context
     }
     
-     func getPixels(pixels: inout [ColorInt], offset: Int, stride: Int, x: Int, y: Int, width: Int, height: Int) {
+    func getPixels(pixels: inout [ColorInt], offset: Int, stride: Int, x: Int, y: Int, width: Int, height: Int) {
         guard let context = self.createARGBBitmapContext() else {
             return
         }
@@ -46,6 +46,7 @@ extension Bitmap {
         let pixelsWide = self.width
         let pixelsHigh = self.height
         let rect = CGRect(x: 0, y: 0, width: pixelsWide, height: pixelsHigh)
+        
         //Clear the context
         context.clear(rect)
         
@@ -68,7 +69,7 @@ extension Bitmap {
             let red = dataType[offset + 1]
             let green = dataType[offset + 2]
             let blue = dataType[offset + 3]
-            pixels[i] = Color.argb(alpha: Int(alpha),
+            pixels[i] = Color.argb(alpha: 255,
                                    red: Int(red),
                                    green: Int(green),
                                    blue: Int(blue))
@@ -77,11 +78,14 @@ extension Bitmap {
         pixels = [Int](pixels[x * y..<width * height])
     }
     
-    func resize(scale: Double) -> Bitmap {
+    func resize(_ scaleRatio: Double) -> Bitmap {
         let image = UIImage(cgImage: self)
-        let size = image.size.applying(CGAffineTransform(scaleX: CGFloat(scale), y: CGFloat(scale)))
+        let size = image.size.applying(CGAffineTransform(scaleX: CGFloat(scaleRatio), y: CGFloat(scaleRatio)))
         
-        UIGraphicsBeginImageContext(size)
+        let hasAlpha = false
+        let scale: CGFloat = 0.0 // Automatically use scale factor of main screen
+        
+        UIGraphicsBeginImageContextWithOptions(size, !hasAlpha, scale)
         image.draw(in: CGRect(origin: .zero, size: size))
         
         let context = UIGraphicsGetImageFromCurrentImageContext()
