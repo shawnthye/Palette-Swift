@@ -24,7 +24,7 @@ class PaletteTests: XCTestCase {
         
         let boolean = b.intersects(a)
         
-        print("intersects: \(boolean): \(b.intersection(a))")
+//        print("intersects: \(boolean): \(b.intersection(a))")
         
         logo = UIImage(named: "instagram_logo.jpg",
                                  in: Bundle(for: PaletteTests.self),
@@ -57,7 +57,7 @@ class PaletteTests: XCTestCase {
         }
         
         let palette = Palette27.Builder(bitmap: logo)
-//            .resizeBitmapArea(area: 1000)
+//            .resizeBitmapArea(area: 300)
             .generate()
         let swatches = palette.swatches
         print("Total Color: \(swatches.count)")

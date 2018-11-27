@@ -317,7 +317,7 @@ extension Palette27 {
             // Now create a Palette instance
             let p = Palette27(swatches: swatches, targets: mTargets)
             // And make it generate itself
-//             p.generate()
+            //             p.generate()
             
             // LOG: Created Palette
             
@@ -325,90 +325,35 @@ extension Palette27 {
         }
         
         private func getPixelsFromBitmap(_ bitmap: CGImage) -> [Int] {
-            //TODO:
-            //        let bitmapWidth = bitmap.width
-            //        let bitmapHeight = bitmap.height
-            //        int[] pixels = new int[bitmapWidth * bitmapHeight];
-            //        bitmap.getPixels(pixels, 0, bitmapWidth, 0, 0, bitmapWidth, bitmapHeight);
-            //
-            //        if (mRegion == null) {
-            //        // If we don't have a region, return all of the pixels
-            //        return pixels;
-            //        } else {
-            //        // If we do have a region, lets create a subset array containing only the region's
-            //        // pixels
-            //        final int regionWidth = mRegion.width();
-            //        final int regionHeight = mRegion.height();
-            //        // pixels contains all of the pixels, so we need to iterate through each row and
-            //        // copy the regions pixels into a new smaller array
-            //        final int[] subsetPixels = new int[regionWidth * regionHeight];
-            //        for (int row = 0; row < regionHeight; row++) {
-            //        System.arraycopy(pixels, ((row + mRegion.top) * bitmapWidth) + mRegion.left,
-            //        subsetPixels, row * regionWidth, regionWidth);
-            //        }
-            //        return subsetPixels;
-            //        }
-            let inImage:CGImage =  bitmap
+            let bitmapWidth = bitmap.width
+            let bitmapHeight = bitmap.height
+            var pixels = [ColorInt](repeating: 0, count: bitmapWidth * bitmapHeight)
+            pixels.reserveCapacity(bitmapWidth * bitmapHeight)
+            bitmap.getPixels(pixels: &pixels,
+                             offset: 0,
+                             stride: bitmapWidth,
+                             x: 0, y: 0,
+                             width: bitmapWidth, height: bitmapHeight)
             
-            //Get image width, height
-            let pixelsWide = inImage.width
-            let pixelsHigh = inImage.height
-            
-            // Declare the number of bytes per row. Each pixel in the bitmap in this
-            // example is represented by 4 bytes; 8 bits each of red, green, blue, and
-            // alpha.
-            let bitmapBytesPerRow = Int(pixelsWide) * 4
-            
-            // Use the generic RGB color space.
-            let colorSpace = CGColorSpaceCreateDeviceRGB()
-            
-            // Allocate memory for image data. This is the destination in memory
-            // where any drawing to the bitmap context will be rendered.
-            let bitmapData = UnsafeMutablePointer<UInt8>.allocate(capacity: bitmapBytesPerRow * pixelsHigh)
-            let bitmapInfo = CGImageAlphaInfo.premultipliedFirst.rawValue
-            
-            // Create the bitmap context. We want pre-multiplied ARGB, 8-bits
-            // per component. Regardless of what the source image format is
-            // (CMYK, Grayscale, and so on) it will be converted over to the format
-            // specified here by CGBitmapContextCreate.
-            let context = CGContext(data: bitmapData, width: pixelsWide, height: pixelsHigh, bitsPerComponent: 8, bytesPerRow: bitmapBytesPerRow, space: colorSpace, bitmapInfo: bitmapInfo)
-            
-            let rect = CGRect(x:0, y:0, width:Int(pixelsWide), height:Int(pixelsHigh))
-            
-            
-            //Clear the context
-            context?.clear(rect)
-            
-            // Draw the image to the bitmap context. Once we draw, the memory
-            // allocated for the context for rendering will then contain the
-            // raw image data in the specified color space.
-            context?.draw(inImage, in: rect)
-            
-            // Now we can get a pointer to the image data associated with the bitmap
-            // context.
-            
-            
-            let data = context?.data?.assumingMemoryBound(to: UInt8.self)
-            let dataType = UnsafeMutablePointer<UInt8>(data)!
-            var pixels = [Int]()
-            for x in 0..<pixelsWide {
-                for y in 0..<pixelsHigh {
-                    let offset = 4*((Int(pixelsWide) * Int(y)) + Int(x))
-                    let alpha = dataType[offset]
-                    let red = dataType[offset+1]
-                    let green = dataType[offset+2]
-                    let blue = dataType[offset+3]
-                    let red32: UInt32   = (UInt32(red)   * (31*2) + 255) / (255*2)
-                    let green32: UInt32 = (UInt32(green) * 63 + 127) / 255
-                    let blue32: UInt32  = (UInt32(blue)  * 31 + 127) / 255
-                    let RGB565pixel: UInt16 = UInt16((red32 << 11) | (green32 <<  5) | blue32)
-                    
-//                    pixels.append(Int(RGB565pixel))
-                    pixels.append((Int(red) << 16) | (Int(green) << 8) | Int(blue))
-                }
+            guard let region = mRegion else {
+                // If we don't have a region, return all of the pixels
+                return pixels
             }
             
-            return pixels
+            // If we do have a region, lets create a subset array containing only the region's
+            // pixels
+            let regionWidth = Int(region.width)
+            let regionHeight = Int(region.height)
+            // pixels contains all of the pixels, so we need to iterate through each row and
+            // copy the regions pixels into a new smaller array
+            var subsetPixels = [Int]()
+            subsetPixels.reserveCapacity(regionWidth * regionHeight)
+            for row in 0..<regionHeight {
+                let startPos = row * regionWidth
+                let endPos = startPos + regionWidth
+                subsetPixels[startPos..<endPos] = pixels[startPos..<endPos]
+            }
+            return subsetPixels
         }
         
         /**
@@ -441,7 +386,9 @@ extension Palette27 {
             let hasAlpha = false
             let scale: CGFloat = 0.0 // Automatically use scale factor of main screen
             
-            UIGraphicsBeginImageContextWithOptions(size, !hasAlpha, scale)
+            UIGraphicsBeginImageContext(size)
+            UIGraphicsBeginImageContextWithOptions(size, false, scale)
+//            UIGraphicsBeginImageContextWithOptions(size, !hasAlpha, scale)
             image.draw(in: CGRect(origin: .zero, size: size))
             
             guard let context = UIGraphicsGetImageFromCurrentImageContext(), let scaledImage = context.cgImage  else {

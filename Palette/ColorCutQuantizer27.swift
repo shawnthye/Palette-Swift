@@ -117,7 +117,7 @@ final class ColorCutQuantizer27 {
      */
     private func splitBoxes(queue: inout PriorityQueue<Vbox>, maxSize: Int) {
         while (queue.count < maxSize) {
-            guard let vbox = queue.pop() else {
+            guard let vbox = queue.pop(), vbox.canSplit() else {
                 // All boxes split
                 // If we get here then there are no more boxes to split, so return
                 return
@@ -369,7 +369,7 @@ extension ColorCutQuantizer27 {
          *
          * @return the new ColorBox
          */
-        final func splitBox() -> Vbox{
+        final func splitBox() -> Vbox {
             if (!canSplit()) {
                 //TODO: throw new IllegalStateException("Can not split a box with only 1 color");
                 assertionFailure("Can not split a box with only 1 color")
