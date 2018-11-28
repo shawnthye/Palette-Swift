@@ -21,8 +21,8 @@ public final class Palette {
     public let swatches: [Swatch]
     public let targets: [Target]
     
-    private let mSelectedSwatches: [Target : Swatch]
-    private let mUsedColors: [ColorInt: Bool]
+    private var mSelectedSwatches: [Target : Swatch]
+    private var mUsedColors: [ColorInt: Bool]
     
     private var dominantSwatch: Swatch?
     
@@ -96,6 +96,75 @@ public final class Palette {
      */
     public func getSwatchForTarget(_ target: Target) -> Swatch? {
         return mSelectedSwatches[target]
+    }
+    
+    func generate() {
+        // We need to make sure that the scored targets are generated first. This is so that
+        // inherited targets have something to inherit from
+        for target in targets {
+            target.normalizeWeights()
+            mSelectedSwatches[target] = generateScoredTarget(target)
+        }
+        // We now clear out the used colors
+        mUsedColors.removeAll()
+    }
+    
+    private func generateScoredTarget(_ target: Target) -> Swatch? {
+        let maxScoreSwatch = getMaxScoredSwatchForTarget(target)
+        if let maxScoreSwatch = maxScoreSwatch, target.exclusive {
+            // If we have a swatch, and the target is exclusive, add the color to the used list
+            mUsedColors[maxScoreSwatch.rgb] = true
+        }
+        return maxScoreSwatch
+    }
+    
+    private func getMaxScoredSwatchForTarget(_ target: Target) -> Swatch? {
+        var maxScore: Float = 0
+        var maxScoreSwatch: Swatch?
+        for swatch in swatches {
+            if (shouldBeScoredForTarget(swatch, target)) {
+                let score = generateScore(swatch, target)
+                if (maxScoreSwatch == nil || score > maxScore) {
+                    maxScoreSwatch = swatch
+                    maxScore = score
+                }
+            }
+        }
+        return maxScoreSwatch
+    }
+    
+    private func shouldBeScoredForTarget(_ swatch: Swatch, _ target: Target) -> Bool {
+        // Check whether the HSL values are within the correct ranges, and this color hasn't
+        // been used yet.
+        let hsl = swatch.hsl
+        return hsl[1] >= target.minimumSaturation && hsl[1] <= target.maximumSaturation
+            && hsl[2] >= target.minimumLightness && hsl[2] <= target.maximumLightness
+            && !(mUsedColors[swatch.rgb] ?? false)
+    }
+    
+    private func generateScore(_ swatch: Swatch, _ target: Target) -> Float {
+        let hsl = swatch.hsl
+        
+        var saturationScore: Float = 0
+        var luminanceScore: Float = 0;
+        var populationScore: Float = 0;
+        
+        let maxPopulation = dominantSwatch?.population ?? 1
+        
+        if target.saturationWeight > 0 {
+            saturationScore = target.saturationWeight
+                * (1 - abs(hsl[1] - target.targetSaturation))
+        }
+        if target.lightnessWeight > 0 {
+            luminanceScore = target.lightnessWeight
+                * (1 - abs(hsl[2] - target.targetLightness))
+        }
+        if target.populationWeight > 0 {
+            populationScore = target.populationWeight
+                * (Float(swatch.population) / Float(maxPopulation))
+        }
+        
+        return saturationScore + luminanceScore + populationScore
     }
     
     private func findDominantSwatch() -> Swatch? {
@@ -298,7 +367,7 @@ extension Palette {
                 // Now generate a quantizer from the Bitmap
                 let quantizer = ColorCutQuantizer(
                     pixels: getPixelsFromBitmap(bitmap),
-                    final: mMaxColors,
+                    maxColors: mMaxColors,
                     filters: mFilters.isEmpty ? nil : mFilters)
                 
                 swatches = quantizer.quantizedColors
@@ -312,7 +381,7 @@ extension Palette {
             // Now create a Palette instance
             let p = Palette(swatches: swatches, targets: mTargets)
             // And make it generate itself
-            //             p.generate()
+            p.generate()
             
             // LOG: Created Palette
             

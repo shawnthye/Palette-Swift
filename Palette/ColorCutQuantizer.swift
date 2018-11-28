@@ -37,7 +37,7 @@ final class ColorCutQuantizer {
     
     private var mTempHsl: [Float] = [Float](repeating: 0, count: 3)
     
-    init(pixels: [Int], final maxColors:Int, filters: [Palette.Filter]?) {
+    init(pixels: [Int], maxColors: Int, filters: [Palette.Filter]?) {
         mFilters = filters
         
         var pixels = pixels

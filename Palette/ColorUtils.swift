@@ -10,6 +10,8 @@ import Foundation
 
 final class ColorUtils {
     
+    private init() { }
+    
     private static let minAlphaSearchMaxIterations = 10
     private static let minAlphaSearchPrecision = 1
     
