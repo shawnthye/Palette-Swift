@@ -82,7 +82,7 @@ final class ColorCutQuantizer {
         if distinctColorCount <= maxColors {
             // The image has fewer colors than the maximum requested, so just return the colors
             for color in colors {
-                quantizedColors.append(Palette.Swatch(color: color, population: hist[color]))
+                quantizedColors.append(Palette.Swatch(color: ColorCutQuantizer.approximateToRgb888(color), population: hist[color]))
             } //Too few colors present. Copied to Swatches
         } else {
             // We need use quantization to reduce the number of colors
@@ -271,11 +271,11 @@ extension ColorCutQuantizer {
     private class Vbox: Comparable {
         
         static func < (lhs: ColorCutQuantizer.Vbox, rhs: ColorCutQuantizer.Vbox) -> Bool {
-            return lhs.hashValue == rhs.hashValue
+            return rhs.getVolume() - lhs.getVolume() > 0
         }
         
         static func == (lhs: ColorCutQuantizer.Vbox, rhs: ColorCutQuantizer.Vbox) -> Bool {
-            return lhs.getVolume() < rhs.getVolume()
+            return lhs.hashValue == rhs.hashValue
         }
         
         private let colorCutQuantizer: ColorCutQuantizer

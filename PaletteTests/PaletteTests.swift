@@ -51,8 +51,8 @@ class PaletteTests: XCTestCase {
         }
         
         let palette = Palette.Builder(bitmap: logo)
-//            .resizeBitmapArea(area: 100)
-            .clearFilters()
+            .resizeBitmapArea(area: 1265)
+//            .clearFilters()
             .generate()
         let swatches = palette.swatches
         print("Total Color: \(swatches.count)")
