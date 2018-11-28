@@ -201,9 +201,6 @@ extension Palette {
          * Construct a new {@link Builder} using a source {@link Bitmap}
          */
         public init(bitmap: CGImage) {
-            // if (bitmap == null || bitmap.isRecycled()) {
-            //     throw new IllegalArgumentException("Bitmap is not valid");
-            // }
             mFilters.append(Palette.defaultFilter)
             mBitmap = bitmap
             mSwatches = nil
