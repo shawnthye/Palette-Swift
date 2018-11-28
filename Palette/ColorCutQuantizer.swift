@@ -21,7 +21,7 @@ import Foundation
  * This means that the color space is divided into distinct colors, rather than representative
  * colors.
  */
-final class ColorCutQuantizer27 {
+final class ColorCutQuantizer {
     
     static let COMPONENT_RED = -3
     static let COMPONENT_GREEN = -2
@@ -31,80 +31,83 @@ final class ColorCutQuantizer27 {
     private static let QUANTIZE_WORD_MASK = (1 << QUANTIZE_WORD_WIDTH) - 1
     
     private var mColors: [Int] = []
-    private var mHistogram: [Int]
-    private(set) var quantizedColors: [Palette27.Swatch] = []
-    private var mFilters: [Palette27.Filter]?
+    private var mHistogram: [Int] = []
+    private(set) var quantizedColors: [Palette.Swatch] = []
+    private var mFilters: [Palette.Filter]?
     
     private var mTempHsl: [Float] = [Float](repeating: 0, count: 3)
     
-    init(pixels: [Int], final maxColors:Int, filters: [Palette27.Filter]?) {
+    init(pixels: [Int], final maxColors:Int, filters: [Palette.Filter]?) {
         mFilters = filters
         
         var pixels = pixels
-        var hist: [Int] = [Int](repeating: 0, count: 1 << (ColorCutQuantizer27.QUANTIZE_WORD_WIDTH * 3));
+        var hist: [Int] = [Int](repeating: 0, count: (1 << (ColorCutQuantizer.QUANTIZE_WORD_WIDTH * 3)))
         
         for (i, pixel) in pixels.enumerated() {
-            let quantizedColor = ColorCutQuantizer27.quantizeFromRgb888(pixel)
+            let quantizedColor = ColorCutQuantizer.quantizeFromRgb888(pixel)
             // Now update the pixel value to the quantized value
-            pixels[i] = quantizedColor;
+            pixels[i] = quantizedColor
             // And update the histogram
             hist[quantizedColor] += 1
         }
-        mHistogram = hist //Histogram created
+        
+        // Histogram created
         
         // Now let's count the number of distinct colors
         var distinctColorCount = 0
-        for (i, color) in hist.enumerated() {
-            //TODO: should happen, pixel there problem return a 000000 colors
-            if color > 0 && shouldIgnoreColor(color565: color) {
+        for color in 0..<hist.count {
+            if hist[color] > 0 && shouldIgnoreColor(color565: color) {
                 // If we should ignore the color, set the population to 0
-                hist[i] = 0
+                hist[color] = 0
             }
-            if color > 0 {
+            if hist[color] > 0 {
                 // If the color has population, increase the distinct color count
                 distinctColorCount += 1
             }
         } //Filtered colors and distinct colors counted
         
+        mHistogram = hist
+        // Histogram updated
+        
         // Now lets go through create an array consisting of only distinct colors
         var colors = [Int](repeating: 0, count: distinctColorCount)
         var distinctColorIndex = 0
-        for (i, color) in hist.enumerated() where color > 0 {
-            colors[distinctColorIndex] = i;
+        for (i, color) in mHistogram.enumerated() where color > 0 {
+            colors[distinctColorIndex] = i
             distinctColorIndex += 1
         }
         mColors = colors //Distinct colors copied into array
         
-        var quantizedColors = [Palette27.Swatch]()
+        var quantizedColors = [Palette.Swatch]()
         if distinctColorCount <= maxColors {
             // The image has fewer colors than the maximum requested, so just return the colors
             for color in colors {
-                quantizedColors.append(Palette27.Swatch(color: color, population: hist[color]))
+                quantizedColors.append(Palette.Swatch(color: color, population: hist[color]))
             } //Too few colors present. Copied to Swatches
         } else {
             // We need use quantization to reduce the number of colors
-            quantizedColors = quantizePixels(maxColors); //Quantized colors computed
+            quantizedColors = quantizePixels(maxColors) //Quantized colors computed
         }
         
         self.quantizedColors = quantizedColors
     }
     
-    private func quantizePixels(_ maxColors: Int) -> [Palette27.Swatch] {
+    private func quantizePixels(_ maxColors: Int) -> [Palette.Swatch] {
         // Create the priority queue which is sorted by volume descending. This means we always
         // split the largest box in the queue
-        var pq = PriorityQueue<Vbox>();
+        var pq = PriorityQueue<Vbox>()
         
         // To start, offer a box which contains all of the colors
         pq.push(Vbox(colorCutQuantizer: self,
                      lowerIndex: 0,
-                     upperIndex: mColors.count - 1));
+                     upperIndex: mColors.count - 1))
         
         // Now go through the boxes, splitting them until we have reached maxColors or there are no
         // more boxes to split
-        splitBoxes(queue: &pq, maxSize: maxColors);
+        splitBoxes(queue: &pq, maxSize: maxColors)
         
         // Finally, return the average colors of the color boxes
-        return generateAverageColors(vboxes: pq);
+        return generateAverageColors(vboxes: pq)
     }
     
     /**
@@ -132,17 +135,17 @@ final class ColorCutQuantizer27 {
         }
     }
     
-    private func generateAverageColors(vboxes: PriorityQueue<Vbox>) -> [Palette27.Swatch] {
-        var colors = [Palette27.Swatch]()
+    private func generateAverageColors(vboxes: PriorityQueue<Vbox>) -> [Palette.Swatch] {
+        var colors = [Palette.Swatch]()
         for vbox in vboxes {
-            let swatch = vbox.getAverageColor();
+            let swatch = vbox.getAverageColor()
             if (!shouldIgnoreColor(color: swatch)) {
                 // As we're averaging a color box, we can still get colors which we do not want, so
                 // we check again here
-                colors.append(swatch);
+                colors.append(swatch)
             }
         }
-        return colors;
+        return colors
     }
     
     /**
@@ -161,7 +164,7 @@ final class ColorCutQuantizer27 {
             for (i, color) in a.enumerated() {
                 a[i] = quantizedGreen(color) << (QUANTIZE_WORD_WIDTH + QUANTIZE_WORD_WIDTH)
                     | quantizedRed(color) << QUANTIZE_WORD_WIDTH
-                    | quantizedBlue(color);
+                    | quantizedBlue(color)
             }
             break
         case COMPONENT_BLUE:
@@ -169,7 +172,7 @@ final class ColorCutQuantizer27 {
             for (i, color) in a.enumerated() {
                 a[i] = quantizedBlue(color) << (QUANTIZE_WORD_WIDTH + QUANTIZE_WORD_WIDTH)
                     | quantizedGreen(color) << QUANTIZE_WORD_WIDTH
-                    | quantizedRed(color);
+                    | quantizedRed(color)
             }
             break
         default:
@@ -178,14 +181,14 @@ final class ColorCutQuantizer27 {
     }
     
     private func shouldIgnoreColor(color565: Int) -> Bool {
-        let rgb = ColorCutQuantizer27.approximateToRgb888(color565);
-        ColorUtils27.colorToHSL(color: rgb, outHsl: &mTempHsl);
+        let rgb = ColorCutQuantizer.approximateToRgb888(color565)
+        ColorUtils.colorToHSL(color: rgb, outHsl: &mTempHsl)
         
-        return shouldIgnoreColor(rgb, mTempHsl);
+        return shouldIgnoreColor(rgb, mTempHsl)
     }
     
-    private func shouldIgnoreColor(color: Palette27.Swatch) -> Bool {
-        return shouldIgnoreColor(color.rgb, color.hsl);
+    private func shouldIgnoreColor(color: Palette.Swatch) -> Bool {
+        return shouldIgnoreColor(color.rgb, color.hsl)
     }
     
     private func shouldIgnoreColor(_ rgb: Int, _ hsl: [Float]) -> Bool {
@@ -205,10 +208,10 @@ final class ColorCutQuantizer27 {
      * Quantized a RGB888 value to have a word width of {@value #QUANTIZE_WORD_WIDTH}.
      */
     private static func quantizeFromRgb888(_ color: Int) -> Int {
-        let r = modifyWordWidth(Color.red(color), 8, QUANTIZE_WORD_WIDTH);
-        let g = modifyWordWidth(Color.green(color), 8, QUANTIZE_WORD_WIDTH);
-        let b = modifyWordWidth(Color.blue(color), 8, QUANTIZE_WORD_WIDTH);
-        return r << (QUANTIZE_WORD_WIDTH + QUANTIZE_WORD_WIDTH) | g << QUANTIZE_WORD_WIDTH | b;
+        let r = modifyWordWidth(Color.red(color), 8, QUANTIZE_WORD_WIDTH)
+        let g = modifyWordWidth(Color.green(color), 8, QUANTIZE_WORD_WIDTH)
+        let b = modifyWordWidth(Color.blue(color), 8, QUANTIZE_WORD_WIDTH)
+        return r << (QUANTIZE_WORD_WIDTH + QUANTIZE_WORD_WIDTH) | g << QUANTIZE_WORD_WIDTH | b
     }
     
     /**
@@ -217,13 +220,13 @@ final class ColorCutQuantizer27 {
     static func approximateToRgb888(r: Int, g: Int, b: Int) -> Int {
         return Color.rgb(red: modifyWordWidth(r, QUANTIZE_WORD_WIDTH, 8),
                          green: modifyWordWidth(g, QUANTIZE_WORD_WIDTH, 8),
-                         blue: modifyWordWidth(b, QUANTIZE_WORD_WIDTH, 8));
+                         blue: modifyWordWidth(b, QUANTIZE_WORD_WIDTH, 8))
     }
     
     private static func approximateToRgb888(_ color: Int) -> Int {
         return approximateToRgb888(r: quantizedRed(color),
                                    g: quantizedGreen(color),
-                                   b: quantizedBlue(color));
+                                   b: quantizedBlue(color))
     }
     
     /**
@@ -251,31 +254,31 @@ final class ColorCutQuantizer27 {
         var newValue: Int
         if (targetWidth > currentWidth) {
             // If we're approximating up in word width, we'll shift up
-            newValue = value << (targetWidth - currentWidth);
+            newValue = value << (targetWidth - currentWidth)
         } else {
             // Else, we will just shift and keep the MSB
-            newValue = value >> (currentWidth - targetWidth);
+            newValue = value >> (currentWidth - targetWidth)
         }
-        return newValue & ((1 << targetWidth) - 1);
+        return newValue & ((1 << targetWidth) - 1)
     }
 }
 
-extension ColorCutQuantizer27 {
+extension ColorCutQuantizer {
     
     /**
      * Represents a tightly fitting box around a color space.
      */
     private class Vbox: Comparable {
         
-        static func < (lhs: ColorCutQuantizer27.Vbox, rhs: ColorCutQuantizer27.Vbox) -> Bool {
+        static func < (lhs: ColorCutQuantizer.Vbox, rhs: ColorCutQuantizer.Vbox) -> Bool {
             return lhs.hashValue == rhs.hashValue
         }
         
-        static func == (lhs: ColorCutQuantizer27.Vbox, rhs: ColorCutQuantizer27.Vbox) -> Bool {
+        static func == (lhs: ColorCutQuantizer.Vbox, rhs: ColorCutQuantizer.Vbox) -> Bool {
             return lhs.getVolume() < rhs.getVolume()
         }
         
-        private let colorCutQuantizer: ColorCutQuantizer27
+        private let colorCutQuantizer: ColorCutQuantizer
         
         // lower and upper index are inclusive
         private let mLowerIndex: Int
@@ -291,7 +294,7 @@ extension ColorCutQuantizer27 {
         private static var ordinal = Int32(0)
         let hashValue = Int(OSAtomicIncrement32(&Vbox.ordinal))
         
-        init(colorCutQuantizer: ColorCutQuantizer27, lowerIndex: Int, upperIndex: Int){
+        init(colorCutQuantizer: ColorCutQuantizer, lowerIndex: Int, upperIndex: Int){
             self.colorCutQuantizer = colorCutQuantizer
             mLowerIndex = lowerIndex
             mUpperIndex = upperIndex
@@ -310,11 +313,11 @@ extension ColorCutQuantizer27 {
         }
         
         final func canSplit() -> Bool {
-            return getColorCount() > 1;
+            return getColorCount() > 1
         }
         
         final func getColorCount() -> Int{
-            return 1 + mUpperIndex - mLowerIndex;
+            return 1 + mUpperIndex - mLowerIndex
         }
         
         /**
@@ -330,12 +333,12 @@ extension ColorCutQuantizer27 {
             var count = 0
             
             for i in stride(from: mLowerIndex, through: mUpperIndex, by: 1) {
-                let color = colors[i];
-                count += hist[color];
+                let color = colors[i]
+                count += hist[color]
                 
-                let r = quantizedRed(color);
-                let g = quantizedGreen(color);
-                let b = quantizedBlue(color);
+                let r = quantizedRed(color)
+                let g = quantizedGreen(color)
+                let b = quantizedBlue(color)
                 if (r > maxRed) {
                     maxRed = r
                 }
@@ -356,13 +359,13 @@ extension ColorCutQuantizer27 {
                 }
             }
             
-            mMinRed = minRed;
-            mMaxRed = maxRed;
-            mMinGreen = minGreen;
-            mMaxGreen = maxGreen;
-            mMinBlue = minBlue;
-            mMaxBlue = maxBlue;
-            mPopulation = count;
+            mMinRed = minRed
+            mMaxRed = maxRed
+            mMinGreen = minGreen
+            mMaxGreen = maxGreen
+            mMinBlue = minBlue
+            mMaxBlue = maxBlue
+            mPopulation = count
         }
         
         /**
@@ -372,38 +375,38 @@ extension ColorCutQuantizer27 {
          */
         final func splitBox() -> Vbox {
             if (!canSplit()) {
-                // throw new IllegalStateException("Can not split a box with only 1 color");
+                // throw new IllegalStateException("Can not split a box with only 1 color")
                 assertionFailure("Can not split a box with only 1 color")
             }
             
             // find median along the longest dimension
-            let splitPoint = findSplitPoint();
+            let splitPoint = findSplitPoint()
             
             let newBox = Vbox(colorCutQuantizer: colorCutQuantizer,
                               lowerIndex: splitPoint + 1,
-                              upperIndex: mUpperIndex);
+                              upperIndex: mUpperIndex)
             
             // Now change this box's upperIndex and recompute the color boundaries
-            mUpperIndex = splitPoint;
-            fitBox();
+            mUpperIndex = splitPoint
+            fitBox()
             
-            return newBox;
+            return newBox
         }
         
         /**
          * @return the dimension which this box is largest in
          */
         final func getLongestColorDimension() -> Int {
-            let redLength = mMaxRed - mMinRed;
-            let greenLength = mMaxGreen - mMinGreen;
-            let blueLength = mMaxBlue - mMinBlue;
+            let redLength = mMaxRed - mMinRed
+            let greenLength = mMaxGreen - mMinGreen
+            let blueLength = mMaxBlue - mMinBlue
             
             if (redLength >= greenLength && redLength >= blueLength) {
-                return COMPONENT_RED;
+                return COMPONENT_RED
             } else if (greenLength >= redLength && greenLength >= blueLength) {
-                return COMPONENT_GREEN;
+                return COMPONENT_GREEN
             } else {
-                return COMPONENT_BLUE;
+                return COMPONENT_BLUE
             }
         }
         
@@ -427,7 +430,7 @@ extension ColorCutQuantizer27 {
             modifySignificantOctet(&colors, longestDimension, mLowerIndex, mUpperIndex)
             
             // Now sort... Arrays.sort uses a exclusive toIndex so we need to add 1
-            // Arrays.sort(colors, mLowerIndex, mUpperIndex + 1);
+            // Arrays.sort(colors, mLowerIndex, mUpperIndex + 1)
             colors[mLowerIndex...mUpperIndex].sort()
             
             // Now revert all of the colors so that they are packed as RGB again
@@ -437,21 +440,21 @@ extension ColorCutQuantizer27 {
             
             var count = 0
             for i in mLowerIndex...mUpperIndex {
-                count += hist[colors[i]];
+                count += hist[colors[i]]
                 if (count >= midPoint) {
                     // we never want to split on the upperIndex, as this will result in the same
                     // box
-                    return min(mUpperIndex - 1, i);
+                    return min(mUpperIndex - 1, i)
                 }
             }
             
-            return mLowerIndex;
+            return mLowerIndex
         }
         
         /**
          * @return the average color of this box.
          */
-        final func getAverageColor() -> Palette27.Swatch {
+        final func getAverageColor() -> Palette.Swatch {
             let colors = colorCutQuantizer.mColors
             let hist = colorCutQuantizer.mHistogram
             var redSum = 0
@@ -469,16 +472,12 @@ extension ColorCutQuantizer27 {
                 blueSum += colorPopulation * quantizedBlue(color)
             }
             
-//            let redMean = redSum == 0 ? 0 : Int(round(Float(redSum) / Float(totalPopulation)))
-//            let greenMean = greenSum == 0 ? 0 : Int(round(Float(greenSum) / Float(totalPopulation)))
-//            let blueMean = blueSum == 0 ? 0 : Int(round(Float(blueSum) / Float(totalPopulation)))
-            
             let redMean = Int(round(Float(redSum) / Float(totalPopulation)))
             let greenMean = Int(round(Float(greenSum) / Float(totalPopulation)))
             let blueMean = Int(round(Float(blueSum) / Float(totalPopulation)))
             
             let color = approximateToRgb888(r: redMean, g: greenMean, b: blueMean)
-            return Palette27.Swatch(color: color, population: totalPopulation)
+            return Palette.Swatch(color: color, population: totalPopulation)
         }
     }
 }

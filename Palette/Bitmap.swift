@@ -69,23 +69,53 @@ extension Bitmap {
             let red = dataType[offset + 1]
             let green = dataType[offset + 2]
             let blue = dataType[offset + 3]
-            pixels[i] = Color.argb(alpha: 255,
+            pixels[i] = Color.argb(alpha: Int(alpha),
                                    red: Int(red),
                                    green: Int(green),
                                    blue: Int(blue))
         }
         
+       
+        
         pixels = [Int](pixels[x * y..<width * height])
+        
+        pixels = [
+            0xFF396892,
+            0xFF3F6F97,
+            0xFF43739B,
+            0xFF42729A,
+            0xFF3E6E96,
+            0xFF386791,
+            0xFF3D6D95,
+            0xFF44749C,
+            0xFF4979A1,
+            0xFF4979A1,
+            0xFF43739B,
+            0xFF3B6A94,
+            0xFF3D6C96,
+            0xFF44749C,
+            0xFF4979A1,
+            0xFF4979A1,
+            0xFF42729A,
+            0xFF3B6A94,
+            0xFF386992,
+            0xFF3F6F97,
+            0xFF42729A,
+            0xFF417199,
+            0xFF3E6D97,
+            0xFF376891
+        ]
     }
     
     func resize(_ scaleRatio: Double) -> Bitmap {
         let image = UIImage(cgImage: self)
         let size = image.size.applying(CGAffineTransform(scaleX: CGFloat(scaleRatio), y: CGFloat(scaleRatio)))
         
-        let hasAlpha = false
-        let scale: CGFloat = 0.0 // Automatically use scale factor of main screen
+        // let hasAlpha = false
+        // let scale: CGFloat = 0.0 // Automatically use scale factor of main screen
         
-        UIGraphicsBeginImageContextWithOptions(size, !hasAlpha, scale)
+        // UIGraphicsBeginImageContextWithOptions(size, !hasAlpha, scale)
+        UIGraphicsBeginImageContext(size)
         image.draw(in: CGRect(origin: .zero, size: size))
         
         let context = UIGraphicsGetImageFromCurrentImageContext()

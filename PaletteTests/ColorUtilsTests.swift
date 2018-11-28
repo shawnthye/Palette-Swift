@@ -16,7 +16,7 @@ class ColorUtilsTests: XCTestCase {
     func testColorToHSL() {
         let color565 = 0xFF000061
         var tempHsl = [Float](repeating: 0, count: 3)
-        ColorUtils27.colorToHSL(color: 0x00000061, outHsl: &tempHsl)
+        ColorUtils.colorToHSL(color: 0x00000061, outHsl: &tempHsl)
 //        tempHsl.reserveCapacity(3)
 //        let rgb = ColorCutQuantizer27.approximateToRgb888(r: ColorCutQuantizer27.quantizedRed(color565),
 //                                                         g: ColorCutQuantizer27.quantizedGreen(color565),

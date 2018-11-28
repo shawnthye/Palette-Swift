@@ -19,13 +19,6 @@ class PaletteTests: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        let a = CGRect(x: 0, y: 0, width: 100, height: 100)
-        let b = CGRect(x: 0, y: 1, width: 100, height: 100)
-        
-        let boolean = b.intersects(a)
-        
-//        print("intersects: \(boolean): \(b.intersection(a))")
-        
         logo = UIImage(named: "instagram_logo.jpg",
                                  in: Bundle(for: PaletteTests.self),
                                  compatibleWith: nil)
@@ -51,22 +44,20 @@ class PaletteTests: XCTestCase {
 //        XCTAssert(swatches.count > 0, "no swatch avaible")
     }
     
-    func testPalette27(){
-        var a = [1, 1, 1]
-        a[0] += 1
+    func testPalette27() {
         
         guard let logo = logo?.cgImage else {
             return
         }
         
-        let palette = Palette27.Builder(bitmap: logo)
-//            .resizeBitmapArea(area: 1000)
-//            .clearFilters()
+        let palette = Palette.Builder(bitmap: logo)
+//            .resizeBitmapArea(area: 100)
+            .clearFilters()
             .generate()
         let swatches = palette.swatches
         print("Total Color: \(swatches.count)")
         for swatch in swatches {
-            print("Color: \(ColorInt.toHexString(swatch.rgb))")
+            print("Color: \(ColorInt.toHexString(swatch.rgb)), population: \(swatch.population)")
         }
     }
     

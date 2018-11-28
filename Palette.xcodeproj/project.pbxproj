@@ -9,11 +9,11 @@
 /* Begin PBXBuildFile section */
 		735A0CE32195BB3600E34FC6 /* Target.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735A0CE22195BB3600E34FC6 /* Target.swift */; };
 		735A0CE72195BF1B00E34FC6 /* Target.BuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735A0CE62195BF1B00E34FC6 /* Target.BuilderTests.swift */; };
-		735A0CE9219892E300E34FC6 /* ColorCutQuantizer27.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735A0CE8219892E300E34FC6 /* ColorCutQuantizer27.swift */; };
-		735A0CEB2198A24F00E34FC6 /* Palette27.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735A0CEA2198A24F00E34FC6 /* Palette27.swift */; };
+		735A0CE9219892E300E34FC6 /* ColorCutQuantizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735A0CE8219892E300E34FC6 /* ColorCutQuantizer.swift */; };
+		735A0CEB2198A24F00E34FC6 /* Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735A0CEA2198A24F00E34FC6 /* Palette.swift */; };
 		735A0CED2199E8E800E34FC6 /* Android.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735A0CEC2199E8E800E34FC6 /* Android.swift */; };
 		735A0CEF2199E9A700E34FC6 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735A0CEE2199E9A700E34FC6 /* Color.swift */; };
-		735A0CF1219B25C500E34FC6 /* ColorUtils27.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735A0CF0219B25C500E34FC6 /* ColorUtils27.swift */; };
+		735A0CF1219B25C500E34FC6 /* ColorUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735A0CF0219B25C500E34FC6 /* ColorUtils.swift */; };
 		735A0CF3219EDF6700E34FC6 /* Rect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735A0CF2219EDF6700E34FC6 /* Rect.swift */; };
 		735A0CF521A5A4A900E34FC6 /* Bitmap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735A0CF421A5A4A900E34FC6 /* Bitmap.swift */; };
 		735A0CF721ADCB0200E34FC6 /* ColorCutQuantizerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735A0CF621ADCB0200E34FC6 /* ColorCutQuantizerTest.swift */; };
@@ -38,11 +38,11 @@
 /* Begin PBXFileReference section */
 		735A0CE22195BB3600E34FC6 /* Target.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Target.swift; sourceTree = "<group>"; };
 		735A0CE62195BF1B00E34FC6 /* Target.BuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Target.BuilderTests.swift; sourceTree = "<group>"; };
-		735A0CE8219892E300E34FC6 /* ColorCutQuantizer27.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCutQuantizer27.swift; sourceTree = "<group>"; };
-		735A0CEA2198A24F00E34FC6 /* Palette27.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palette27.swift; sourceTree = "<group>"; };
+		735A0CE8219892E300E34FC6 /* ColorCutQuantizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCutQuantizer.swift; sourceTree = "<group>"; };
+		735A0CEA2198A24F00E34FC6 /* Palette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palette.swift; sourceTree = "<group>"; };
 		735A0CEC2199E8E800E34FC6 /* Android.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Android.swift; sourceTree = "<group>"; };
 		735A0CEE2199E9A700E34FC6 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
-		735A0CF0219B25C500E34FC6 /* ColorUtils27.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorUtils27.swift; sourceTree = "<group>"; };
+		735A0CF0219B25C500E34FC6 /* ColorUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorUtils.swift; sourceTree = "<group>"; };
 		735A0CF2219EDF6700E34FC6 /* Rect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rect.swift; sourceTree = "<group>"; };
 		735A0CF421A5A4A900E34FC6 /* Bitmap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bitmap.swift; sourceTree = "<group>"; };
 		735A0CF621ADCB0200E34FC6 /* ColorCutQuantizerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCutQuantizerTest.swift; sourceTree = "<group>"; };
@@ -147,9 +147,9 @@
 				735A0CEC2199E8E800E34FC6 /* Android.swift */,
 				735A0CF421A5A4A900E34FC6 /* Bitmap.swift */,
 				735A0CEE2199E9A700E34FC6 /* Color.swift */,
-				735A0CE8219892E300E34FC6 /* ColorCutQuantizer27.swift */,
-				735A0CF0219B25C500E34FC6 /* ColorUtils27.swift */,
-				735A0CEA2198A24F00E34FC6 /* Palette27.swift */,
+				735A0CE8219892E300E34FC6 /* ColorCutQuantizer.swift */,
+				735A0CF0219B25C500E34FC6 /* ColorUtils.swift */,
+				735A0CEA2198A24F00E34FC6 /* Palette.swift */,
 				735A0CF2219EDF6700E34FC6 /* Rect.swift */,
 				F428A2371BE5537300238624 /* SwiftPriorityQueue.swift */,
 				735A0CE22195BB3600E34FC6 /* Target.swift */,
@@ -265,11 +265,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				735A0CF1219B25C500E34FC6 /* ColorUtils27.swift in Sources */,
+				735A0CF1219B25C500E34FC6 /* ColorUtils.swift in Sources */,
 				735A0CEF2199E9A700E34FC6 /* Color.swift in Sources */,
 				735A0CE32195BB3600E34FC6 /* Target.swift in Sources */,
-				735A0CE9219892E300E34FC6 /* ColorCutQuantizer27.swift in Sources */,
-				735A0CEB2198A24F00E34FC6 /* Palette27.swift in Sources */,
+				735A0CE9219892E300E34FC6 /* ColorCutQuantizer.swift in Sources */,
+				735A0CEB2198A24F00E34FC6 /* Palette.swift in Sources */,
 				F428A2381BE5537300238624 /* SwiftPriorityQueue.swift in Sources */,
 				735A0CF3219EDF6700E34FC6 /* Rect.swift in Sources */,
 				735A0CF521A5A4A900E34FC6 /* Bitmap.swift in Sources */,
